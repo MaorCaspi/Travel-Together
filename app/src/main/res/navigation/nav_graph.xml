@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/studentListRvFragment">
+
+    <fragment
+        android:id="@+id/studentListRvFragment"
+        android:name="com.finalProject.travelTogether.feed.StudentListRvFragment"
+        android:label="Students"
+        tools:layout="@layout/fragment_students_list">
+        <action
+            android:id="@+id/action_studentListRvFragment_to_studentDetailsFragment"
+            app:destination="@id/studentDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/studentDetailsFragment"
+        android:name="com.finalProject.travelTogether.feed.StudentDetailsFragment"
+        android:label="Details"
+        tools:layout="@layout/fragment_student_details">
+        <argument
+            android:name="studentId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment2"
+        android:name="com.finalProject.travelTogether.common.AboutFragment"
+        android:label="About"
+        tools:layout="@layout/fragment_about" />
+    <action android:id="@+id/action_global_aboutFragment" app:destination="@id/aboutFragment2" />
+    <fragment
+        android:id="@+id/addStudentFragment"
+        android:name="com.finalProject.travelTogether.feed.AddStudentFragment"
+        android:label="Add New Student"
+        tools:layout="@layout/fragment_add_student" />
+    <action android:id="@+id/action_global_addStudentFragment" app:destination="@id/addStudentFragment" />
+</navigation>

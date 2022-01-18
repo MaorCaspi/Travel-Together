@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Administrator/Documents/android studio/Class 11 Demo Colman 2/Class 11 Demo Colman 2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.221875" />
+        <entry key="app/src/main/res/layout/activity_base.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_intro.xml" value="0.21510416666666668" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.21510416666666668" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_student_list.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_student_list_rv_acivity.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_about.xml" value="0.22447916666666667" />
+        <entry key="app/src/main/res/layout/fragment_add_student.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_blue.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_red.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_student_details.xml" value="0.21621621621621623" />
+        <entry key="app/src/main/res/layout/fragment_student_list.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_students_list.xml" value="0.266304347826087" />
+        <entry key="app/src/main/res/layout/student_list_row.xml" value="0.625" />
+        <entry key="app/src/main/res/menu/base_menu.xml" value="0.45" />
+        <entry key="app/src/main/res/menu/login_menu.xml" value="0.21510416666666668" />
+        <entry key="app/src/main/res/menu/student_list_menu.xml" value="0.335" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

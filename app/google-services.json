@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "68811856901",
+    "project_id": "traveltogether-6561f",
+    "storage_bucket": "traveltogether-6561f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68811856901:android:de8f7312dd19629e62106c",
+        "android_client_info": {
+          "package_name": "com.finalProject.travelTogether"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "68811856901-32035ugq85sfa58lif74dbj8lgtajuah.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClhlwW564fJEUYc0-bhs_XeaEysfj-NEI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "68811856901-32035ugq85sfa58lif74dbj8lgtajuah.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
