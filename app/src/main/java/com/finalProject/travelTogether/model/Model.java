@@ -5,13 +5,10 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
 import com.finalProject.travelTogether.MyApplication;
-
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;

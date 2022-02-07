@@ -4,6 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Administrator/Documents/android studio/Class 11 Demo Colman 2/Class 11 Demo Colman 2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.221875" />
+        <entry key="..\:/Users/Administrator/Documents/android studio/Travel Together/Travel Together/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.30520833333333336" />
+        <entry key="..\:/Users/Administrator/Documents/android studio/Travel Together/Travel Together/app/src/main/res/layout/activity_base.xml" value="0.2890625" />
+        <entry key="..\:/Users/Administrator/Documents/android studio/Travel Together/Travel Together/app/src/main/res/layout/activity_intro.xml" value="0.20572916666666666" />
+        <entry key="..\:/Users/Administrator/Documents/android studio/Travel Together/Travel Together/app/src/main/res/layout/fragment_about.xml" value="0.20572916666666666" />
+        <entry key="..\:/Users/Administrator/Documents/android studio/Travel Together/Travel Together/app/src/main/res/layout/fragment_add_student.xml" value="0.2890625" />
+        <entry key="..\:/Users/Administrator/Documents/android studio/Travel Together/Travel Together/app/src/main/res/layout/fragment_student_details.xml" value="0.2890625" />
+        <entry key="..\:/Users/Administrator/Documents/android studio/Travel Together/Travel Together/app/src/main/res/layout/fragment_students_list.xml" value="0.2890625" />
+        <entry key="..\:/Users/Administrator/Documents/android studio/Travel Together/Travel Together/app/src/main/res/layout/student_list_row.xml" value="0.2890625" />
         <entry key="app/src/main/res/layout/activity_base.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_intro.xml" value="0.21510416666666668" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.21510416666666668" />

@@ -25,8 +25,6 @@
             android:text="TextView"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/listrow_cb"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/listrow_avatar_imv"
             app:layout_constraintTop_toBottomOf="@+id/listrow_name_tv" />
 
@@ -45,18 +43,6 @@
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize8Percent"
             />
 
-        <CheckBox
-            android:id="@+id/listrow_cb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:focusable="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/listrow_name_tv"
             android:layout_width="0dp"
@@ -65,8 +51,6 @@
             android:text="TextView"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/listrow_id_tv"
-            app:layout_constraintEnd_toStartOf="@+id/listrow_cb"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/listrow_avatar_imv"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

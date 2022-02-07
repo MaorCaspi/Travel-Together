@@ -3,7 +3,6 @@ package com.finalProject.travelTogether.model;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-
 import com.finalProject.travelTogether.MyApplication;
 
 @Database(entities = {Student.class}, version = 4)
@@ -19,4 +18,3 @@ public class AppLocalDb{
                     .fallbackToDestructiveMigration()
                     .build();
 }
-

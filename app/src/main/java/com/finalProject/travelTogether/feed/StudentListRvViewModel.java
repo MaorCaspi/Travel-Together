@@ -2,7 +2,6 @@ package com.finalProject.travelTogether.feed;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Student;
 

@@ -2,9 +2,7 @@ package com.finalProject.travelTogether.model;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -18,7 +16,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.io.ByteArrayOutputStream;
 import java.util.LinkedList;
 import java.util.List;
@@ -116,5 +113,4 @@ public class ModelFirebase {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         return (currentUser != null);
     }
-
 }

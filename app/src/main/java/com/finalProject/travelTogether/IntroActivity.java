@@ -1,10 +1,8 @@
 package com.finalProject.travelTogether;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.finalProject.travelTogether.feed.BaseActivity;
 import com.finalProject.travelTogether.login.LoginActivity;
 import com.finalProject.travelTogether.model.Model;

@@ -18,7 +18,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -85,13 +84,11 @@ public class StudentListRvFragment extends Fragment {
         ImageView avatarImv;
         TextView nameTv;
         TextView idTv;
-        CheckBox cb;
 
         public MyViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             nameTv = itemView.findViewById(R.id.listrow_name_tv);
             idTv = itemView.findViewById(R.id.listrow_id_tv);
-            cb = itemView.findViewById(R.id.listrow_cb);
             avatarImv = itemView.findViewById(R.id.listrow_avatar_imv);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +103,6 @@ public class StudentListRvFragment extends Fragment {
         void bind(Student student){
             nameTv.setText(student.getName());
             idTv.setText(student.getId());
-            cb.setChecked(student.isFlag());
             avatarImv.setImageResource(R.drawable.avatar);
             if (student.getAvatarUrl() != null) {
                 Picasso.get()

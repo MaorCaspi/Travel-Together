@@ -4,15 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -20,25 +14,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Student;
-
 import java.io.IOException;
-import java.io.InputStream;
 
 public class AddStudentFragment extends Fragment {
     private static final int REQUEST_CAMERA = 1;
     private static final int PICK_IMAGE = 2;
     EditText nameEt;
     EditText idEt;
-    CheckBox cb;
     Button saveBtn;
     Button cancelBtn;
     ProgressBar progressBar;
@@ -53,7 +42,6 @@ public class AddStudentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_student,container, false);
         nameEt = view.findViewById(R.id.main_name_et);
         idEt = view.findViewById(R.id.main_id_et);
-        cb = view.findViewById(R.id.main_cb);
         saveBtn = view.findViewById(R.id.main_save_btn);
         cancelBtn = view.findViewById(R.id.main_cancel_btn);
         progressBar = view.findViewById(R.id.main_progressbar);
@@ -122,9 +110,8 @@ public class AddStudentFragment extends Fragment {
 
         String name = nameEt.getText().toString();
         String id = idEt.getText().toString();
-        boolean flag = cb.isChecked();
-        Log.d("TAG","saved name:" + name + " id:" + id + " flag:" + flag);
-        Student student = new Student(name,id,flag);
+        Log.d("TAG","saved name:" + name + " id:" + id);
+        Student student = new Student(name,id);
         if (imageBitmap == null){
             Model.instance.addStudent(student,()->{
                 Navigation.findNavController(nameEt).navigateUp();
