@@ -55,6 +55,13 @@ public class AddStudentFragment extends Fragment {
             }
         });
 
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigateUp();
+            }
+        });
+
         camBtn = view.findViewById(R.id.main_cam_btn);
         galleryBtn = view.findViewById(R.id.main_gallery_btn);
 
@@ -97,8 +104,8 @@ public class AddStudentFragment extends Fragment {
                 e.printStackTrace();
                 return;
             }
-            avatarImv.setImageBitmap(imageBitmap);
         }
+        avatarImv.setImageBitmap(imageBitmap);
     }
 
     private void save() {
