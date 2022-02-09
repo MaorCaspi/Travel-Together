@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <ImageView
+        <ImageView
         android:id="@+id/main_avatar_imv"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -40,6 +40,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
+            android:hint="@string/id">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/main_id_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:hint="@string/name">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -54,14 +68,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:hint="@string/id">
+            android:hint="description">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/main_id_et"
+                android:id="@+id/main_description_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:maxLines="1" />
+                android:inputType="textMultiLine"
+                android:maxLines="8"
+          />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 public class StudentDetailsFragment extends Fragment {
     TextView nameTv;
     TextView idTv;
+    TextView descriptionTv;
     ImageView avatarImv;
 
     @Override
@@ -33,13 +34,14 @@ public class StudentDetailsFragment extends Fragment {
             @Override
             public void onComplete(Student student) {
                 nameTv.setText(student.getName());
+                descriptionTv.setText(student.getDescription());
                 idTv.setText(student.getId());
                 if (student.getAvatarUrl() != null) {
                     Picasso.get().load(student.getAvatarUrl()).into(avatarImv);
                 }
             }
         });
-
+        descriptionTv = view.findViewById(R.id.details_description_tv);
         nameTv = view.findViewById(R.id.details_name_tv);
         idTv = view.findViewById(R.id.details_id_tv);
         avatarImv = view.findViewById(R.id.details_avatar_img);

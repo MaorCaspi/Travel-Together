@@ -27,6 +27,7 @@ public class AddStudentFragment extends Fragment {
     private static final int REQUEST_CAMERA = 1;
     private static final int PICK_IMAGE = 2;
     EditText nameEt;
+    EditText descriptionEt;
     EditText idEt;
     Button saveBtn;
     Button cancelBtn;
@@ -41,6 +42,7 @@ public class AddStudentFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_student,container, false);
         nameEt = view.findViewById(R.id.main_name_et);
+        descriptionEt = view.findViewById(R.id.main_description_et);
         idEt = view.findViewById(R.id.main_id_et);
         saveBtn = view.findViewById(R.id.main_save_btn);
         cancelBtn = view.findViewById(R.id.main_cancel_btn);
@@ -116,9 +118,10 @@ public class AddStudentFragment extends Fragment {
         galleryBtn.setEnabled(false);
 
         String name = nameEt.getText().toString();
+        String description = descriptionEt.getText().toString();
         String id = idEt.getText().toString();
-        Log.d("TAG","saved name:" + name + " id:" + id);
-        Student student = new Student(name,id);
+        Log.d("TAG","saved name:" + name + " id:" + id + " disription:" + description);
+        Student student = new Student(name,id,description);
         if (imageBitmap == null){
             Model.instance.addStudent(student,()->{
                 Navigation.findNavController(nameEt).navigateUp();
