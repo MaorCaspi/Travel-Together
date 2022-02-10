@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
-import com.finalProject.travelTogether.model.Student;
+import com.finalProject.travelTogether.model.Post;
 import com.squareup.picasso.Picasso;
 
 public class StudentDetailsFragment extends Fragment {
@@ -30,7 +30,7 @@ public class StudentDetailsFragment extends Fragment {
 
         Model.instance.getStudentById(stId, new Model.GetStudentById() {
             @Override
-            public void onComplete(Student student) {
+            public void onComplete(Post student) {
                 countryNameTv.setText(student.getCountryName());
                 descriptionTv.setText(student.getDescription());
                 idTv.setText(student.getId());

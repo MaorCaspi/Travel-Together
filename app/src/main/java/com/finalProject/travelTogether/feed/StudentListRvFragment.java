@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
-import com.finalProject.travelTogether.model.Student;
+import com.finalProject.travelTogether.model.Post;
 import com.squareup.picasso.Picasso;
 
 public class StudentListRvFragment extends Fragment {
@@ -98,7 +98,7 @@ public class StudentListRvFragment extends Fragment {
             });
         }
 
-        void bind(Student student){
+        void bind(Post student){
             nameTv.setText(student.getCountryName());
             idTv.setText(student.getId());
             avatarImv.setImageResource(R.drawable.avatar);
@@ -130,7 +130,7 @@ public class StudentListRvFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            Student student = viewModel.getData().getValue().get(position);
+            Post student = viewModel.getData().getValue().get(position);
             holder.bind(student);
         }
 

@@ -22,7 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
-import com.finalProject.travelTogether.model.Student;
+import com.finalProject.travelTogether.model.Post;
 import java.io.IOException;
 
 public class AddStudentFragment extends Fragment {
@@ -129,7 +129,7 @@ public class AddStudentFragment extends Fragment {
         String description = descriptionEt.getText().toString();
         String id = idEt.getText().toString();
         Log.d("TAG","country name:" + countryName + " id:" + id + " description:" + description);
-        Student student = new Student(countryName,id,description);
+        Post student = new Post(countryName,id,description);
         if (imageBitmap == null){
             Model.instance.addStudent(student,()->{
                 Navigation.findNavController(countryNameSP).navigateUp();

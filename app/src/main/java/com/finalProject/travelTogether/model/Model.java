@@ -36,9 +36,9 @@ public class Model {
         studentListLoadingState.setValue(StudentListLoadingState.loaded);
     }
 
-    MutableLiveData<List<Student>> studentsList = new MutableLiveData<List<Student>>();
+    MutableLiveData<List<Post>> studentsList = new MutableLiveData<List<Post>>();
 
-    public LiveData<List<Student>> getAll() {
+    public LiveData<List<Post>> getAll() {
         if (studentsList.getValue() == null) {
             refreshStudentList();
         }
@@ -53,21 +53,21 @@ public class Model {
         Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("StudentsLastUpdateDate", 0);
 
         executor.execute(() -> {
-            List<Student> stList = AppLocalDb.db.studentDao().getAll();
+            List<Post> stList = AppLocalDb.db.studentDao().getAll();
             studentsList.postValue(stList);
         });
 
         // firebase get all updates since lastLocalUpdateDate
         modelFirebase.getAllStudents(lastUpdateDate, new ModelFirebase.GetAllStudentsListener() {
             @Override
-            public void onComplete(List<Student> list) {
+            public void onComplete(List<Post> list) {
                 // add all records to the local db
                 executor.execute(new Runnable() {
                     @Override
                     public void run() {
                         Long lud = new Long(0);
                         Log.d("TAG", "fb returned " + list.size());
-                        for (Student student : list) {
+                        for (Post student : list) {
                             AppLocalDb.db.studentDao().insertAll(student);
                             if (lud < student.getUpdateDate()) {
                                 lud = student.getUpdateDate();
@@ -81,7 +81,7 @@ public class Model {
                                 .commit();
 
                         //return all data to caller
-                        List<Student> stList = AppLocalDb.db.studentDao().getAll();
+                        List<Post> stList = AppLocalDb.db.studentDao().getAll();
                         studentsList.postValue(stList);
                         studentListLoadingState.postValue(StudentListLoadingState.loaded);
                     }
@@ -94,7 +94,7 @@ public class Model {
         void onComplete();
     }
 
-    public void addStudent(Student student, AddStudentListener listener) {
+    public void addStudent(Post student, AddStudentListener listener) {
         modelFirebase.addStudent(student, () -> {
             listener.onComplete();
             refreshStudentList();
@@ -102,10 +102,10 @@ public class Model {
     }
 
     public interface GetStudentById {
-        void onComplete(Student student);
+        void onComplete(Post student);
     }
 
-    public Student getStudentById(String studentId, GetStudentById listener) {
+    public Post getStudentById(String studentId, GetStudentById listener) {
         modelFirebase.getStudentById(studentId, listener);
         return null;
     }

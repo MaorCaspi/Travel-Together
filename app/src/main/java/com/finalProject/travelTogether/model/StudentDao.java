@@ -10,13 +10,12 @@ import java.util.List;
 @Dao
 public interface StudentDao {
 
-    @Query("select * from Student")
-    List<Student> getAll();
+    @Query("select * from Post")
+    List<Post> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Student... students);
+    void insertAll(Post... students);
 
     @Delete
-    void delete(Student student);
-
+    void delete(Post student);
 }

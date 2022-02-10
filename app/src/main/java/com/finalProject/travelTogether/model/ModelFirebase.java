@@ -32,18 +32,18 @@ public class ModelFirebase {
     }
 
     public interface GetAllStudentsListener{
-        void onComplete(List<Student> list);
+        void onComplete(List<Post> list);
     }
     //TODO: fix since...
     public void getAllStudents(Long lastUpdateDate, GetAllStudentsListener listener) {
-        db.collection(Student.COLLECTION_NAME)
+        db.collection(Post.COLLECTION_NAME)
                 .whereGreaterThanOrEqualTo("updateDate",new Timestamp(lastUpdateDate,0))
                 .get()
                 .addOnCompleteListener(task -> {
-                    List<Student> list = new LinkedList<Student>();
+                    List<Post> list = new LinkedList<Post>();
                     if (task.isSuccessful()){
                         for (QueryDocumentSnapshot doc : task.getResult()){
-                            Student student = Student.create(doc.getData());
+                            Post student = Post.create(doc.getData());
                             if (student != null){
                                 list.add(student);
                             }
@@ -53,9 +53,9 @@ public class ModelFirebase {
                 });
     }
 
-    public void addStudent(Student student, Model.AddStudentListener listener) {
+    public void addStudent(Post student, Model.AddStudentListener listener) {
         Map<String, Object> json = student.toJson();
-        db.collection(Student.COLLECTION_NAME)
+        db.collection(Post.COLLECTION_NAME)
                 .document(student.getId())
                 .set(json)
                 .addOnSuccessListener(unused -> listener.onComplete())
@@ -63,15 +63,15 @@ public class ModelFirebase {
     }
 
     public void getStudentById(String studentId, Model.GetStudentById listener) {
-        db.collection(Student.COLLECTION_NAME)
+        db.collection(Post.COLLECTION_NAME)
                 .document(studentId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        Student student = null;
+                        Post student = null;
                         if (task.isSuccessful() & task.getResult()!= null){
-                            student = Student.create(task.getResult().getData());
+                            student = Post.create(task.getResult().getData());
                         }
                         listener.onComplete(student);
                     }

@@ -3,15 +3,13 @@ package com.finalProject.travelTogether.model;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
-
 import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-public class Student {
+public class Post {
     final public static String COLLECTION_NAME = "students";
     @PrimaryKey
     @NonNull
@@ -25,8 +23,8 @@ public class Student {
         this.updateDate = updateDate;
     }
 
-    public Student(){}
-    public Student(String countryName, String id, String description) {
+    public Post(){}
+    public Post(String countryName, String id, String description) {
         this.countryName = countryName;
         this.id = id;
         this.description=description;
@@ -66,7 +64,7 @@ public class Student {
         return json;
     }
 
-    public static Student create(Map<String, Object> json) {
+    public static Post create(Map<String, Object> json) {
         String id = (String) json.get("id");
         String name = (String) json.get("countryName");
         String description = (String) json.get("description");
@@ -74,7 +72,7 @@ public class Student {
         Long updateDate = ts.getSeconds();
         String avatarUrl = (String)json.get("avatarUrl");
 
-        Student student = new Student(name,id,description);
+        Post student = new Post(name,id,description);
         student.setUpdateDate(updateDate);
         student.setAvatarUrl(avatarUrl);
         return student;
