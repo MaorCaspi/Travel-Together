@@ -1,7 +1,6 @@
 package com.finalProject.travelTogether.feed;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
@@ -15,9 +14,8 @@ import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Student;
 import com.squareup.picasso.Picasso;
 
-
 public class StudentDetailsFragment extends Fragment {
-    TextView nameTv;
+    TextView countryNameTv;
     TextView idTv;
     TextView descriptionTv;
     ImageView avatarImv;
@@ -33,7 +31,7 @@ public class StudentDetailsFragment extends Fragment {
         Model.instance.getStudentById(stId, new Model.GetStudentById() {
             @Override
             public void onComplete(Student student) {
-                nameTv.setText(student.getName());
+                countryNameTv.setText(student.getCountryName());
                 descriptionTv.setText(student.getDescription());
                 idTv.setText(student.getId());
                 if (student.getAvatarUrl() != null) {
@@ -42,7 +40,7 @@ public class StudentDetailsFragment extends Fragment {
             }
         });
         descriptionTv = view.findViewById(R.id.details_description_tv);
-        nameTv = view.findViewById(R.id.details_name_tv);
+        countryNameTv = view.findViewById(R.id.details_name_tv);
         idTv = view.findViewById(R.id.details_id_tv);
         avatarImv = view.findViewById(R.id.details_avatar_img);
 

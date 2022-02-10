@@ -8,7 +8,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Student;
@@ -101,7 +99,7 @@ public class StudentListRvFragment extends Fragment {
         }
 
         void bind(Student student){
-            nameTv.setText(student.getName());
+            nameTv.setText(student.getCountryName());
             idTv.setText(student.getId());
             avatarImv.setImageResource(R.drawable.avatar);
             if (student.getAvatarUrl() != null) {
@@ -154,7 +152,6 @@ public class StudentListRvFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.addStudentFragment){
-            Log.d("TAG","ADD...");
             return true;
         }else {
             return super.onOptionsItemSelected(item);

@@ -13,11 +13,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Student;
@@ -26,7 +28,7 @@ import java.io.IOException;
 public class AddStudentFragment extends Fragment {
     private static final int REQUEST_CAMERA = 1;
     private static final int PICK_IMAGE = 2;
-    EditText nameEt;
+    Spinner countryNameSP;
     EditText descriptionEt;
     EditText idEt;
     Button saveBtn;
@@ -37,11 +39,18 @@ public class AddStudentFragment extends Fragment {
     ImageButton camBtn;
     ImageButton galleryBtn;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_student,container, false);
-        nameEt = view.findViewById(R.id.main_name_et);
+        countryNameSP = (Spinner) view.findViewById(R.id.main_countryName_sp);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(), R.array.countries_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        countryNameSP.setAdapter(adapter);
         descriptionEt = view.findViewById(R.id.main_description_et);
         idEt = view.findViewById(R.id.main_id_et);
         saveBtn = view.findViewById(R.id.main_save_btn);
@@ -116,21 +125,20 @@ public class AddStudentFragment extends Fragment {
         cancelBtn.setEnabled(false);
         camBtn.setEnabled(false);
         galleryBtn.setEnabled(false);
-
-        String name = nameEt.getText().toString();
+        String countryName = countryNameSP.getSelectedItem().toString();
         String description = descriptionEt.getText().toString();
         String id = idEt.getText().toString();
-        Log.d("TAG","saved name:" + name + " id:" + id + " disription:" + description);
-        Student student = new Student(name,id,description);
+        Log.d("TAG","country name:" + countryName + " id:" + id + " description:" + description);
+        Student student = new Student(countryName,id,description);
         if (imageBitmap == null){
             Model.instance.addStudent(student,()->{
-                Navigation.findNavController(nameEt).navigateUp();
+                Navigation.findNavController(countryNameSP).navigateUp();
             });
         }else{
             Model.instance.saveImage(imageBitmap, id + ".jpg", url -> {
                 student.setAvatarUrl(url);
                 Model.instance.addStudent(student,()->{
-                    Navigation.findNavController(nameEt).navigateUp();
+                    Navigation.findNavController(countryNameSP).navigateUp();
                 });
             });
         }

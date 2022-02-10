@@ -16,7 +16,7 @@ public class Student {
     @PrimaryKey
     @NonNull
     String id = "";
-    String name = "";
+    String countryName = "";
     String description="";
     Long updateDate = new Long(0);
     String avatarUrl;
@@ -26,8 +26,8 @@ public class Student {
     }
 
     public Student(){}
-    public Student(String name, String id, String description) {
-        this.name = name;
+    public Student(String countryName, String id, String description) {
+        this.countryName = countryName;
         this.id = id;
         this.description=description;
     }
@@ -36,8 +36,8 @@ public class Student {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 
     public void setDescription(String description) {
@@ -48,8 +48,8 @@ public class Student {
         return description;
     }
 
-    public String getName() {
-        return name;
+    public String getCountryName() {
+        return countryName;
     }
 
     public String getId() {
@@ -59,7 +59,7 @@ public class Student {
     public Map<String, Object> toJson() {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put("id",id);
-        json.put("name",name);
+        json.put("countryName",countryName);
         json.put("description",description);
         json.put("updateDate", FieldValue.serverTimestamp());
         json.put("avatarUrl",avatarUrl);
@@ -68,7 +68,7 @@ public class Student {
 
     public static Student create(Map<String, Object> json) {
         String id = (String) json.get("id");
-        String name = (String) json.get("name");
+        String name = (String) json.get("countryName");
         String description = (String) json.get("description");
         Timestamp ts = (Timestamp)json.get("updateDate");
         Long updateDate = ts.getSeconds();
