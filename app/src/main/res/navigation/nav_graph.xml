@@ -3,36 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/studentListRvFragment">
+    app:startDestination="@id/postListRvFragment">
 
     <fragment
-        android:id="@+id/studentListRvFragment"
-        android:name="com.finalProject.travelTogether.feed.StudentListRvFragment"
-        android:label="Students"
-        tools:layout="@layout/fragment_students_list">
+        android:id="@+id/postListRvFragment"
+        android:name="com.finalProject.travelTogether.feed.PostListRvFragment"
+        android:label="Posts"
+        tools:layout="@layout/fragment_posts_list">
         <action
-            android:id="@+id/action_studentListRvFragment_to_studentDetailsFragment"
-            app:destination="@id/studentDetailsFragment" />
+            android:id="@+id/action_postListRvFragment_to_postDetailsFragment"
+            app:destination="@id/postDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/studentDetailsFragment"
-        android:name="com.finalProject.travelTogether.feed.StudentDetailsFragment"
+        android:id="@+id/postDetailsFragment"
+        android:name="com.finalProject.travelTogether.feed.PostDetailsFragment"
         android:label="Details"
-        tools:layout="@layout/fragment_student_details">
+        tools:layout="@layout/fragment_post_details">
         <argument
-            android:name="studentId"
+            android:name="postId"
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/aboutFragment2"
+        android:id="@+id/aboutFragment"
         android:name="com.finalProject.travelTogether.common.AboutFragment"
         android:label="About"
         tools:layout="@layout/fragment_about" />
-    <action android:id="@+id/action_global_aboutFragment" app:destination="@id/aboutFragment2" />
+    <action android:id="@+id/action_global_aboutFragment" app:destination="@id/aboutFragment" />
     <fragment
-        android:id="@+id/addStudentFragment"
-        android:name="com.finalProject.travelTogether.feed.AddStudentFragment"
-        android:label="Add New Student"
-        tools:layout="@layout/fragment_add_student" />
-    <action android:id="@+id/action_global_addStudentFragment" app:destination="@id/addStudentFragment" />
+        android:id="@+id/addPostFragment"
+        android:name="com.finalProject.travelTogether.feed.AddPostFragment"
+        android:label="Add New Post"
+        tools:layout="@layout/fragment_add_post" />
+    <action android:id="@+id/action_global_addPostFragment" app:destination="@id/addPostFragment" />
 </navigation>

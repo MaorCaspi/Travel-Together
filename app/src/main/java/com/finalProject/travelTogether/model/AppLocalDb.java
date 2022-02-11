@@ -7,7 +7,7 @@ import com.finalProject.travelTogether.MyApplication;
 
 @Database(entities = {Post.class}, version = 4)
 abstract class AppLocalDbRepository extends RoomDatabase {
-    public abstract StudentDao studentDao();
+    public abstract PostDao postDao();
 }
 
 public class AppLocalDb{

@@ -14,7 +14,7 @@ import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
 import com.squareup.picasso.Picasso;
 
-public class StudentDetailsFragment extends Fragment {
+public class PostDetailsFragment extends Fragment {
     TextView countryNameTv;
     TextView idTv;
     TextView descriptionTv;
@@ -24,18 +24,18 @@ public class StudentDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_student_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_post_details, container, false);
 
-        String stId = StudentDetailsFragmentArgs.fromBundle(getArguments()).getStudentId();
+        String stId = PostDetailsFragmentArgs.fromBundle(getArguments()).getPostId();
 
-        Model.instance.getStudentById(stId, new Model.GetStudentById() {
+        Model.instance.getPostById(stId, new Model.GetPostById() {
             @Override
-            public void onComplete(Post student) {
-                countryNameTv.setText(student.getCountryName());
-                descriptionTv.setText(student.getDescription());
-                idTv.setText(student.getId());
-                if (student.getAvatarUrl() != null) {
-                    Picasso.get().load(student.getAvatarUrl()).into(avatarImv);
+            public void onComplete(Post post) {
+                countryNameTv.setText(post.getCountryName());
+                descriptionTv.setText(post.getDescription());
+                idTv.setText(post.getId());
+                if (post.getAvatarUrl() != null) {
+                    Picasso.get().load(post.getAvatarUrl()).into(avatarImv);
                 }
             }
         });

@@ -31,11 +31,11 @@ public class ModelFirebase {
         db.setFirestoreSettings(settings);
     }
 
-    public interface GetAllStudentsListener{
+    public interface GetAllPostsListener{
         void onComplete(List<Post> list);
     }
     //TODO: fix since...
-    public void getAllStudents(Long lastUpdateDate, GetAllStudentsListener listener) {
+    public void getAllPosts(Long lastUpdateDate, GetAllPostsListener listener) {
         db.collection(Post.COLLECTION_NAME)
                 .whereGreaterThanOrEqualTo("updateDate",new Timestamp(lastUpdateDate,0))
                 .get()
@@ -43,9 +43,9 @@ public class ModelFirebase {
                     List<Post> list = new LinkedList<Post>();
                     if (task.isSuccessful()){
                         for (QueryDocumentSnapshot doc : task.getResult()){
-                            Post student = Post.create(doc.getData());
-                            if (student != null){
-                                list.add(student);
+                            Post post = Post.create(doc.getData());
+                            if (post != null){
+                                list.add(post);
                             }
                         }
                     }
@@ -53,27 +53,27 @@ public class ModelFirebase {
                 });
     }
 
-    public void addStudent(Post student, Model.AddStudentListener listener) {
-        Map<String, Object> json = student.toJson();
+    public void addPost(Post post, Model.AddPostListener listener) {
+        Map<String, Object> json = post.toJson();
         db.collection(Post.COLLECTION_NAME)
-                .document(student.getId())
+                .document(post.getId())
                 .set(json)
                 .addOnSuccessListener(unused -> listener.onComplete())
                 .addOnFailureListener(e -> listener.onComplete());
     }
 
-    public void getStudentById(String studentId, Model.GetStudentById listener) {
+    public void getPostById(String postId, Model.GetPostById listener) {
         db.collection(Post.COLLECTION_NAME)
-                .document(studentId)
+                .document(postId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        Post student = null;
+                        Post post = null;
                         if (task.isSuccessful() & task.getResult()!= null){
-                            student = Post.create(task.getResult().getData());
+                            post = Post.create(task.getResult().getData());
                         }
-                        listener.onComplete(student);
+                        listener.onComplete(post);
                     }
                 });
 

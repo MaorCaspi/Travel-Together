@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Entity
 public class Post {
-    final public static String COLLECTION_NAME = "students";
+    final public static String COLLECTION_NAME = "posts";
     @PrimaryKey
     @NonNull
     String id = "";
@@ -72,10 +72,10 @@ public class Post {
         Long updateDate = ts.getSeconds();
         String avatarUrl = (String)json.get("avatarUrl");
 
-        Post student = new Post(name,id,description);
-        student.setUpdateDate(updateDate);
-        student.setAvatarUrl(avatarUrl);
-        return student;
+        Post post = new Post(name,id,description);
+        post.setUpdateDate(updateDate);
+        post.setAvatarUrl(avatarUrl);
+        return post;
     }
 
     public Long getUpdateDate() {

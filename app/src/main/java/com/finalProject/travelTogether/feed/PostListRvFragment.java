@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,26 +23,26 @@ import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
 import com.squareup.picasso.Picasso;
 
-public class StudentListRvFragment extends Fragment {
-    StudentListRvViewModel viewModel;
+public class PostListRvFragment extends Fragment {
+    PostListRvViewModel viewModel;
     MyAdapter adapter;
     SwipeRefreshLayout swipeRefresh;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        viewModel = new ViewModelProvider(this).get(StudentListRvViewModel.class);
+        viewModel = new ViewModelProvider(this).get(PostListRvViewModel.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_students_list,container,false);
+        View view = inflater.inflate(R.layout.fragment_posts_list,container,false);
 
-        swipeRefresh = view.findViewById(R.id.studentlist_swiperefresh);
-        swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshStudentList());
+        swipeRefresh = view.findViewById(R.id.postlist_swiperefresh);
+        swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshPostList());
 
-        RecyclerView list = view.findViewById(R.id.studentlist_rv);
+        RecyclerView list = view.findViewById(R.id.postlist_rv);
         list.setHasFixedSize(true);
 
         list.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -55,21 +54,19 @@ public class StudentListRvFragment extends Fragment {
             @Override
             public void onItemClick(View v,int position) {
                 String stId = viewModel.getData().getValue().get(position).getId();
-                Navigation.findNavController(v).navigate(StudentListRvFragmentDirections.actionStudentListRvFragmentToStudentDetailsFragment(stId));
-
+                Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(stId));
             }
         });
 
         setHasOptionsMenu(true);
         viewModel.getData().observe(getViewLifecycleOwner(), list1 -> refresh());
-        swipeRefresh.setRefreshing(Model.instance.getStudentListLoadingState().getValue() == Model.StudentListLoadingState.loading);
-        Model.instance.getStudentListLoadingState().observe(getViewLifecycleOwner(), studentListLoadingState -> {
-            if (studentListLoadingState == Model.StudentListLoadingState.loading){
+        swipeRefresh.setRefreshing(Model.instance.getPostListLoadingState().getValue() == Model.PostListLoadingState.loading);
+        Model.instance.getPostListLoadingState().observe(getViewLifecycleOwner(), postListLoadingState -> {
+            if (postListLoadingState == Model.PostListLoadingState.loading){
                 swipeRefresh.setRefreshing(true);
             }else{
                 swipeRefresh.setRefreshing(false);
             }
-
         });
         return view;
     }
@@ -98,13 +95,13 @@ public class StudentListRvFragment extends Fragment {
             });
         }
 
-        void bind(Post student){
-            nameTv.setText(student.getCountryName());
-            idTv.setText(student.getId());
+        void bind(Post post){
+            nameTv.setText(post.getCountryName());
+            idTv.setText(post.getId());
             avatarImv.setImageResource(R.drawable.avatar);
-            if (student.getAvatarUrl() != null) {
+            if (post.getAvatarUrl() != null) {
                 Picasso.get()
-                        .load(student.getAvatarUrl())
+                        .load(post.getAvatarUrl())
                         .into(avatarImv);
             }
         }
@@ -123,15 +120,15 @@ public class StudentListRvFragment extends Fragment {
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = getLayoutInflater().inflate(R.layout.student_list_row,parent,false);
+            View view = getLayoutInflater().inflate(R.layout.post_list_row,parent,false);
             MyViewHolder holder = new MyViewHolder(view,listener);
             return holder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            Post student = viewModel.getData().getValue().get(position);
-            holder.bind(student);
+            Post post = viewModel.getData().getValue().get(position);
+            holder.bind(post);
         }
 
         @Override
@@ -146,12 +143,12 @@ public class StudentListRvFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.student_list_menu,menu);
+        inflater.inflate(R.menu.post_list_menu,menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.addStudentFragment){
+        if (item.getItemId() == R.id.addPostFragment){
             return true;
         }else {
             return super.onOptionsItemSelected(item);

@@ -8,14 +8,14 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface StudentDao {
+public interface PostDao {
 
     @Query("select * from Post")
     List<Post> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Post... students);
+    void insertAll(Post... posts);
 
     @Delete
-    void delete(Post student);
+    void delete(Post post);
 }

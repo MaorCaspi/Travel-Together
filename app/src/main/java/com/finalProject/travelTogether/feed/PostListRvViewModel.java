@@ -6,10 +6,10 @@ import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
 import java.util.List;
 
-public class StudentListRvViewModel extends ViewModel {
+public class PostListRvViewModel extends ViewModel {
     LiveData<List<Post>> data;
 
-    public StudentListRvViewModel(){
+    public PostListRvViewModel(){
         data = Model.instance.getAll();
     }
     public LiveData<List<Post>> getData() {

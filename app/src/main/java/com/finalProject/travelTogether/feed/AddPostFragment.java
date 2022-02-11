@@ -25,7 +25,7 @@ import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
 import java.io.IOException;
 
-public class AddStudentFragment extends Fragment {
+public class AddPostFragment extends Fragment {
     private static final int REQUEST_CAMERA = 1;
     private static final int PICK_IMAGE = 2;
     Spinner countryNameSP;
@@ -43,7 +43,7 @@ public class AddStudentFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_student,container, false);
+        View view = inflater.inflate(R.layout.fragment_add_post,container, false);
         countryNameSP = (Spinner) view.findViewById(R.id.main_countryName_sp);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(), R.array.countries_array, android.R.layout.simple_spinner_item);
@@ -129,15 +129,15 @@ public class AddStudentFragment extends Fragment {
         String description = descriptionEt.getText().toString();
         String id = idEt.getText().toString();
         Log.d("TAG","country name:" + countryName + " id:" + id + " description:" + description);
-        Post student = new Post(countryName,id,description);
+        Post post = new Post(countryName,id,description);
         if (imageBitmap == null){
-            Model.instance.addStudent(student,()->{
+            Model.instance.addPost(post,()->{
                 Navigation.findNavController(countryNameSP).navigateUp();
             });
         }else{
             Model.instance.saveImage(imageBitmap, id + ".jpg", url -> {
-                student.setAvatarUrl(url);
-                Model.instance.addStudent(student,()->{
+                post.setAvatarUrl(url);
+                Model.instance.addPost(post,()->{
                     Navigation.findNavController(countryNameSP).navigateUp();
                 });
             });

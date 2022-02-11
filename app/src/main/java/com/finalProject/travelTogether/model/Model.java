@@ -19,46 +19,45 @@ public class Model {
     public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
 
 
-    public enum StudentListLoadingState {
+    public enum PostListLoadingState {
         loading,
         loaded
     }
 
-    MutableLiveData<StudentListLoadingState> studentListLoadingState = new MutableLiveData<StudentListLoadingState>();
+    MutableLiveData<PostListLoadingState> postListLoadingState = new MutableLiveData<PostListLoadingState>();
 
-    public LiveData<StudentListLoadingState> getStudentListLoadingState() {
-        return studentListLoadingState;
+    public LiveData<PostListLoadingState> getPostListLoadingState() {
+        return postListLoadingState;
     }
 
     ModelFirebase modelFirebase = new ModelFirebase();
 
     private Model() {
-        studentListLoadingState.setValue(StudentListLoadingState.loaded);
+        postListLoadingState.setValue(PostListLoadingState.loaded);
     }
 
-    MutableLiveData<List<Post>> studentsList = new MutableLiveData<List<Post>>();
+    MutableLiveData<List<Post>> postsList = new MutableLiveData<List<Post>>();
 
     public LiveData<List<Post>> getAll() {
-        if (studentsList.getValue() == null) {
-            refreshStudentList();
+        if (postsList.getValue() == null) {
+            refreshPostList();
         }
-        ;
-        return studentsList;
+        return postsList;
     }
 
-    public void refreshStudentList() {
-        studentListLoadingState.setValue(StudentListLoadingState.loading);
+    public void refreshPostList() {
+        postListLoadingState.setValue(PostListLoadingState.loading);
 
         // get last local update date
-        Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("StudentsLastUpdateDate", 0);
+        Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("postListLoadingState", 0);
 
         executor.execute(() -> {
-            List<Post> stList = AppLocalDb.db.studentDao().getAll();
-            studentsList.postValue(stList);
+            List<Post> stList = AppLocalDb.db.postDao().getAll();
+            postsList.postValue(stList);
         });
 
         // firebase get all updates since lastLocalUpdateDate
-        modelFirebase.getAllStudents(lastUpdateDate, new ModelFirebase.GetAllStudentsListener() {
+        modelFirebase.getAllPosts(lastUpdateDate, new ModelFirebase.GetAllPostsListener() {
             @Override
             public void onComplete(List<Post> list) {
                 // add all records to the local db
@@ -67,46 +66,46 @@ public class Model {
                     public void run() {
                         Long lud = new Long(0);
                         Log.d("TAG", "fb returned " + list.size());
-                        for (Post student : list) {
-                            AppLocalDb.db.studentDao().insertAll(student);
-                            if (lud < student.getUpdateDate()) {
-                                lud = student.getUpdateDate();
+                        for (Post post : list) {
+                            AppLocalDb.db.postDao().insertAll(post);
+                            if (lud < post.getUpdateDate()) {
+                                lud = post.getUpdateDate();
                             }
                         }
                         // update last local update date
                         MyApplication.getContext()
                                 .getSharedPreferences("TAG", Context.MODE_PRIVATE)
                                 .edit()
-                                .putLong("StudentsLastUpdateDate", lud)
+                                .putLong("PostsLastUpdateDate", lud)
                                 .commit();
 
                         //return all data to caller
-                        List<Post> stList = AppLocalDb.db.studentDao().getAll();
-                        studentsList.postValue(stList);
-                        studentListLoadingState.postValue(StudentListLoadingState.loaded);
+                        List<Post> stList = AppLocalDb.db.postDao().getAll();
+                        postsList.postValue(stList);
+                        postListLoadingState.postValue(PostListLoadingState.loaded);
                     }
                 });
             }
         });
     }
 
-    public interface AddStudentListener {
+    public interface AddPostListener {
         void onComplete();
     }
 
-    public void addStudent(Post student, AddStudentListener listener) {
-        modelFirebase.addStudent(student, () -> {
+    public void addPost(Post post, AddPostListener listener) {
+        modelFirebase.addPost(post, () -> {
             listener.onComplete();
-            refreshStudentList();
+            refreshPostList();
         });
     }
 
-    public interface GetStudentById {
-        void onComplete(Post student);
+    public interface GetPostById {
+        void onComplete(Post post);
     }
 
-    public Post getStudentById(String studentId, GetStudentById listener) {
-        modelFirebase.getStudentById(studentId, listener);
+    public Post getPostById(String postId, GetPostById listener) {
+        modelFirebase.getPostById(postId, listener);
         return null;
     }
 

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/aboutFragment2"
+        android:id="@+id/aboutFragment"
         android:title="About"
         app:showAsAction="never" />
 </menu>
