@@ -77,13 +77,13 @@ public class PostListRvFragment extends Fragment {
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView avatarImv;
-        TextView nameTv;
-        TextView idTv;
+        TextView countryNameTv;
+        TextView descriptionTv;
 
         public MyViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
-            nameTv = itemView.findViewById(R.id.listrow_name_tv);
-            idTv = itemView.findViewById(R.id.listrow_id_tv);
+            countryNameTv = itemView.findViewById(R.id.listrow_countryName_tv);
+            descriptionTv = itemView.findViewById(R.id.listrow_description_tv);
             avatarImv = itemView.findViewById(R.id.listrow_avatar_imv);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -96,8 +96,8 @@ public class PostListRvFragment extends Fragment {
         }
 
         void bind(Post post){
-            nameTv.setText(post.getCountryName());
-            idTv.setText(post.getId());
+            countryNameTv.setText(post.getCountryName());
+            descriptionTv.setText(post.getDescription());
             avatarImv.setImageResource(R.drawable.avatar);
             if (post.getAvatarUrl() != null) {
                 Picasso.get()
@@ -150,7 +150,8 @@ public class PostListRvFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.addPostFragment){
             return true;
-        }else {
+        }
+        else {
             return super.onOptionsItemSelected(item);
         }
     }

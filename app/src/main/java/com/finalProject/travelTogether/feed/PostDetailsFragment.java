@@ -16,7 +16,6 @@ import com.squareup.picasso.Picasso;
 
 public class PostDetailsFragment extends Fragment {
     TextView countryNameTv;
-    TextView idTv;
     TextView descriptionTv;
     ImageView avatarImv;
 
@@ -33,15 +32,13 @@ public class PostDetailsFragment extends Fragment {
             public void onComplete(Post post) {
                 countryNameTv.setText(post.getCountryName());
                 descriptionTv.setText(post.getDescription());
-                idTv.setText(post.getId());
                 if (post.getAvatarUrl() != null) {
                     Picasso.get().load(post.getAvatarUrl()).into(avatarImv);
                 }
             }
         });
         descriptionTv = view.findViewById(R.id.details_description_tv);
-        countryNameTv = view.findViewById(R.id.details_name_tv);
-        idTv = view.findViewById(R.id.details_id_tv);
+        countryNameTv = view.findViewById(R.id.details_countryName_tv);
         avatarImv = view.findViewById(R.id.details_avatar_img);
 
         Button backBtn = view.findViewById(R.id.details_back_btn);

@@ -24,13 +24,13 @@ import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
 import java.io.IOException;
+import java.util.UUID;
 
 public class AddPostFragment extends Fragment {
     private static final int REQUEST_CAMERA = 1;
     private static final int PICK_IMAGE = 2;
     Spinner countryNameSP;
     EditText descriptionEt;
-    EditText idEt;
     Button saveBtn;
     Button cancelBtn;
     ProgressBar progressBar;
@@ -52,7 +52,6 @@ public class AddPostFragment extends Fragment {
         // Apply the adapter to the spinner
         countryNameSP.setAdapter(adapter);
         descriptionEt = view.findViewById(R.id.main_description_et);
-        idEt = view.findViewById(R.id.main_id_et);
         saveBtn = view.findViewById(R.id.main_save_btn);
         cancelBtn = view.findViewById(R.id.main_cancel_btn);
         progressBar = view.findViewById(R.id.main_progressbar);
@@ -127,7 +126,7 @@ public class AddPostFragment extends Fragment {
         galleryBtn.setEnabled(false);
         String countryName = countryNameSP.getSelectedItem().toString();
         String description = descriptionEt.getText().toString();
-        String id = idEt.getText().toString();
+        String id = UUID.randomUUID().toString();
         Log.d("TAG","country name:" + countryName + " id:" + id + " description:" + description);
         Post post = new Post(countryName,id,description);
         if (imageBitmap == null){

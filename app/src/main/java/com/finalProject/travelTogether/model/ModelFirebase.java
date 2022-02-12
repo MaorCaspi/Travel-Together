@@ -76,7 +76,6 @@ public class ModelFirebase {
                         listener.onComplete(post);
                     }
                 });
-
     }
 
     /**
