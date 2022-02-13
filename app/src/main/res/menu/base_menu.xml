@@ -7,4 +7,9 @@
         android:icon="@android:drawable/ic_menu_info_details"
         android:title="About"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/logout"
+        android:icon="@android:drawable/ic_delete"
+        android:title="Logout"
+        app:showAsAction="never" />
 </menu>

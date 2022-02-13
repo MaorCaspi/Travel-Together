@@ -7,18 +7,14 @@
     tools:context=".login.LoginFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutCompat2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        android:layout_marginTop="100dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.825">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:layout_width="match_parent"
@@ -35,7 +31,7 @@
             android:paddingTop="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_email_et"
+                android:id="@+id/register_email_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
@@ -50,7 +46,7 @@
             android:paddingTop="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_password_et"
+                android:id="@+id/register_password_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
@@ -58,21 +54,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/login_login_btn"
+            android:id="@+id/register_register_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="16dp"
-            android:text="@string/login" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/login_register_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:layout_marginTop="40dp"
-            android:text="@string/not_already_register"
-            android:textSize="20sp" />
+            android:text="@string/register" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -8,6 +8,8 @@
     <string name="login">login</string>
     <string name="email">email</string>
     <string name="password">password</string>
+    <string name="register">register</string>
+    <string name="not_already_register">"Not already register?\nclick here to register"</string>
 
     <string-array name="countries_array">
         <item>Albania</item>
