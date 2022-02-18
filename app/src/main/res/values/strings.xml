@@ -9,7 +9,9 @@
     <string name="email">email</string>
     <string name="password">password</string>
     <string name="register">register</string>
+    <string name="full_name">full name</string>
     <string name="not_already_register">"Not already register?\nclick here to register"</string>
+    <string name="profile_picture"><u>profile picture</u></string>
 
     <string-array name="countries_array">
         <item>Albania</item>

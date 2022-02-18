@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.feed.BaseActivity;
@@ -25,6 +26,7 @@ public class LoginFragment extends Fragment {
     private FirebaseAuth mAuth;
     EditText emailEt;
     EditText passwordEt;
+    ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +35,8 @@ public class LoginFragment extends Fragment {
 
         emailEt = view.findViewById(R.id.login_email_et);
         passwordEt = view.findViewById(R.id.login_password_et);
+        progressBar = view.findViewById(R.id.main_progressbar);
+        progressBar.setVisibility(View.GONE);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -41,6 +45,10 @@ public class LoginFragment extends Fragment {
         loginBtn.setOnClickListener(v -> {
             String email=emailEt.getText().toString();
             String password=passwordEt.getText().toString();
+            if(email.equals("") || password.equals("")){
+                Toast.makeText(getContext(), "Email or password fields can not be empty.", Toast.LENGTH_SHORT).show();
+                return;
+            }
             signIn(email,password);
         });
 
@@ -66,10 +74,7 @@ public class LoginFragment extends Fragment {
         getActivity().finish();
     }
     private void signIn(String email, String password) {
-        if(email.equals("") || password.equals("")){
-            Toast.makeText(getContext(), "Email or password fields can not be empty.", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        progressBar.setVisibility(View.VISIBLE);
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
@@ -81,6 +86,7 @@ public class LoginFragment extends Fragment {
                             toFeedActivity();
                         } else {
                             // If sign in fails, display a message to the user.
+                            progressBar.setVisibility(View.GONE);
                             Log.w("TAG", "signInWithEmail:failure", task.getException());
                             Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }

@@ -6,15 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".login.LoginFragment">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:orientation="vertical"
+    <ProgressBar
+        android:id="@+id/register_progressbar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="157dp"
+        android:layout_height="156dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="30dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:layout_width="match_parent"
@@ -22,6 +35,21 @@
             android:gravity="center"
             android:text="@string/welcome_to_app"
             android:textSize="24sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="@string/full_name"
+            android:paddingTop="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_fullName_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -53,6 +81,32 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:paddingTop="16dp"
+            android:text="@string/profile_picture"
+            android:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/register_avatar_imv"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/avatar" />
+
+        <ImageButton
+            android:id="@+id/register_cam_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_camera" />
+
+        <ImageButton
+            android:id="@+id/register_gallery_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_gallery" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/register_register_btn"
             android:layout_width="wrap_content"
@@ -60,6 +114,7 @@
             android:layout_gravity="end"
             android:layout_marginTop="16dp"
             android:text="@string/register" />
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
