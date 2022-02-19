@@ -18,10 +18,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.feed.BaseActivity;
+import com.finalProject.travelTogether.model.Model;
+import com.finalProject.travelTogether.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -49,8 +50,8 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register, container, false);
-        fullNameEt = view.findViewById(R.id.register_email_et);
         emailEt = view.findViewById(R.id.register_email_et);
+        fullNameEt = view.findViewById(R.id.register_fullName_et);
         passwordEt = view.findViewById(R.id.register_password_et);
         registerBtn = view.findViewById(R.id.register_register_btn);
         progressBar = view.findViewById(R.id.register_progressbar);
@@ -75,12 +76,58 @@ public class RegisterFragment extends Fragment {
             String email=emailEt.getText().toString();
             String password=passwordEt.getText().toString();
             if(fullName.equals("") || email.equals("") || password.equals("")){
-                Toast.makeText(getContext(), "fields can not be empty.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "fields can not be empty", Toast.LENGTH_SHORT).show();
                 return;
             }
             register(email,password);
         });
         return view;
+    }
+
+    private void register(String email, String password) {
+        progressBar.setVisibility(View.VISIBLE);
+        registerBtn.setEnabled(false);
+        camBtn.setEnabled(false);
+        galleryBtn.setEnabled(false);
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("TAG", "createUserWithEmail:success");
+                            createNewUser();;
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            toFeedActivity();
+                        }
+                        else {//If the registration was failed
+                            progressBar.setVisibility(View.GONE);
+                            registerBtn.setEnabled(true);
+                            camBtn.setEnabled(true);
+                            galleryBtn.setEnabled(true);
+                            //Display a message to the user.
+                            Log.w("TAG", "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(getContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                });
+    }
+    private void createNewUser(){
+        String email=emailEt.getText().toString();
+        String fullName=fullNameEt.getText().toString();
+        User user = new User(email,fullName);
+        if (imageBitmap == null){
+            Model.instance.addUser(user,()->{ });
+        }
+        else{
+            Model.instance.saveImage(imageBitmap, email + ".jpg", url -> {
+                user.setAvatarUrl(url);
+                Model.instance.addUser(user,()->{
+                });
+            },0);
+        }
     }
 
     private void openGallery() {
@@ -114,34 +161,6 @@ public class RegisterFragment extends Fragment {
             }
         }
         avatarImv.setImageBitmap(imageBitmap);
-    }
-
-    private void register(String email, String password) {
-        progressBar.setVisibility(View.VISIBLE);
-        registerBtn.setEnabled(false);
-        camBtn.setEnabled(false);
-        galleryBtn.setEnabled(false);
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            toFeedActivity();
-                        } else {
-                            progressBar.setVisibility(View.GONE);
-                            registerBtn.setEnabled(true);
-                            camBtn.setEnabled(true);
-                            galleryBtn.setEnabled(true);
-                            // If sign in fails, display a message to the user.
-                            Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
     }
 
     private void toFeedActivity() {

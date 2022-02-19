@@ -82,9 +82,16 @@ public class ModelFirebase {
      * Firebase Storage
      */
     FirebaseStorage storage = FirebaseStorage.getInstance();
-    public void saveImage(Bitmap imageBitmap, String imageName, Model.SaveImageListener listener) {
+    public void saveImage(Bitmap imageBitmap, String imageName, Model.SaveImageListener listener, int type) {
         StorageReference storageRef = storage.getReference();
-        StorageReference imgRef = storageRef.child("user_avatars/" + imageName);
+        StorageReference imgRef;
+        switch (type){
+            case 0:
+                imgRef = storageRef.child("user_avatars/" + imageName);
+                break;
+            default://case 1
+                imgRef = storageRef.child("post_photos/" + imageName);
+        }
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -111,5 +118,16 @@ public class ModelFirebase {
     public boolean isSignedIn(){
         FirebaseUser currentUser = mAuth.getCurrentUser();
         return (currentUser != null);
+    }
+
+    //user
+
+    public void addUser(User user, Model.AddUserListener listener) {
+        Map<String, Object> json = user.toJson();
+        db.collection(User.COLLECTION_NAME)
+                .document(user.getEmailAddress())
+                .set(json)
+                .addOnSuccessListener(unused -> listener.onComplete())
+                .addOnFailureListener(e -> listener.onComplete());
     }
 }

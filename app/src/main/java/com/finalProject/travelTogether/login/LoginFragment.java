@@ -46,7 +46,7 @@ public class LoginFragment extends Fragment {
             String email=emailEt.getText().toString();
             String password=passwordEt.getText().toString();
             if(email.equals("") || password.equals("")){
-                Toast.makeText(getContext(), "Email or password fields can not be empty.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Email or password fields can not be empty", Toast.LENGTH_SHORT).show();
                 return;
             }
             signIn(email,password);
@@ -88,7 +88,7 @@ public class LoginFragment extends Fragment {
                             // If sign in fails, display a message to the user.
                             progressBar.setVisibility(View.GONE);
                             Log.w("TAG", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

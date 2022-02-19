@@ -114,8 +114,8 @@ public class Model {
         void onComplete(String url);
     }
 
-    public void saveImage(Bitmap imageBitmap, String imageName, SaveImageListener listener) {
-        modelFirebase.saveImage(imageBitmap, imageName, listener);
+    public void saveImage(Bitmap imageBitmap, String imageName, SaveImageListener listener,int type) {
+        modelFirebase.saveImage(imageBitmap, imageName, listener,type);
     }
 
     /**
@@ -124,5 +124,15 @@ public class Model {
 
     public boolean isSignedIn() {
         return modelFirebase.isSignedIn();
+    }
+
+    public interface AddUserListener {
+        void onComplete();
+    }
+
+    public void addUser(User user, AddUserListener listener) {
+        modelFirebase.addUser(user, () -> {
+            listener.onComplete();
+        });
     }
 }

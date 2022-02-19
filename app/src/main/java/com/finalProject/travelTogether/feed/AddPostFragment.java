@@ -131,15 +131,15 @@ public class AddPostFragment extends Fragment {
         Post post = new Post(countryName,id,description);
         if (imageBitmap == null){
             Model.instance.addPost(post,()->{
-                Navigation.findNavController(countryNameSP).navigateUp();
+                Navigation.findNavController(getView()).navigateUp();
             });
         }else{
             Model.instance.saveImage(imageBitmap, id + ".jpg", url -> {
                 post.setAvatarUrl(url);
                 Model.instance.addPost(post,()->{
-                    Navigation.findNavController(countryNameSP).navigateUp();
+                    Navigation.findNavController(getView()).navigateUp();
                 });
-            });
+            },1);
         }
     }
 }
