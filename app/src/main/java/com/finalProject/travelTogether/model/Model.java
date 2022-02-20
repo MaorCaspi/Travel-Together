@@ -118,13 +118,13 @@ public class Model {
         modelFirebase.saveImage(imageBitmap, imageName, listener,type);
     }
 
-    /**
-     * Authentication
-     */
+    /* Authentication */
 
     public boolean isSignedIn() {
         return modelFirebase.isSignedIn();
     }
+
+    /* user */
 
     public interface AddUserListener {
         void onComplete();
@@ -134,5 +134,14 @@ public class Model {
         modelFirebase.addUser(user, () -> {
             listener.onComplete();
         });
+    }
+
+    public interface GetUserByEmailAddress {
+        void onComplete(User user);
+    }
+
+    public User getUserByEmailAddress(String emailAddress, GetUserByEmailAddress listener) {
+        modelFirebase.getUserByEmailAddress(emailAddress, listener);
+        return null;
     }
 }

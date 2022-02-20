@@ -25,9 +25,9 @@ public class PostDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_post_details, container, false);
 
-        String stId = PostDetailsFragmentArgs.fromBundle(getArguments()).getPostId();
+        String postId = PostDetailsFragmentArgs.fromBundle(getArguments()).getPostId();
 
-        Model.instance.getPostById(stId, new Model.GetPostById() {
+        Model.instance.getPostById(postId, new Model.GetPostById() {
             @Override
             public void onComplete(Post post) {
                 countryNameTv.setText(post.getCountryName());

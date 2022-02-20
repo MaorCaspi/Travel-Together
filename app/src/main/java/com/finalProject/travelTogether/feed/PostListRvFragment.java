@@ -21,12 +21,15 @@ import android.widget.TextView;
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
+import com.finalProject.travelTogether.model.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 public class PostListRvFragment extends Fragment {
     PostListRvViewModel viewModel;
     MyAdapter adapter;
     SwipeRefreshLayout swipeRefresh;
+    TextView helloUser;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -41,11 +44,23 @@ public class PostListRvFragment extends Fragment {
 
         swipeRefresh = view.findViewById(R.id.postlist_swiperefresh);
         swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshPostList());
-
+        helloUser=view.findViewById(R.id.postlist_helloUser_tv);
         RecyclerView list = view.findViewById(R.id.postlist_rv);
         list.setHasFixedSize(true);
-
         list.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        Model.instance.getUserByEmailAddress(mAuth.getCurrentUser().getEmail(), new Model.GetUserByEmailAddress() {
+            @Override
+            public void onComplete(User user) {
+                helloUser.setText("Hello "+user.getFullName());
+                /*if (user.getAvatarUrl() != null) {
+                    Picasso.get().load(user.getAvatarUrl()).into(avatarImv);
+                }*/
+            }
+        });
+        //helloUser.setText("Hello "+mAuth.getCurrentUser().getEmail());
+
 
         adapter = new MyAdapter();
         list.setAdapter(adapter);

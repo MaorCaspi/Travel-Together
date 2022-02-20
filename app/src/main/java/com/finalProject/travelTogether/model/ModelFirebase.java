@@ -110,9 +110,7 @@ public class ModelFirebase {
         });
     }
 
-    /**
-     * Authentication
-     */
+    /* Authentication */
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     public boolean isSignedIn(){
@@ -120,8 +118,7 @@ public class ModelFirebase {
         return (currentUser != null);
     }
 
-    //user
-
+    /* user */
     public void addUser(User user, Model.AddUserListener listener) {
         Map<String, Object> json = user.toJson();
         db.collection(User.COLLECTION_NAME)
@@ -129,5 +126,21 @@ public class ModelFirebase {
                 .set(json)
                 .addOnSuccessListener(unused -> listener.onComplete())
                 .addOnFailureListener(e -> listener.onComplete());
+    }
+
+    public void getUserByEmailAddress(String emailAddress, Model.GetUserByEmailAddress listener) {
+        db.collection(User.COLLECTION_NAME)
+                .document(emailAddress)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        User user = null;
+                        if (task.isSuccessful() & task.getResult()!= null){
+                            user = User.create(task.getResult().getData());
+                        }
+                        listener.onComplete(user);
+                    }
+                });
     }
 }
