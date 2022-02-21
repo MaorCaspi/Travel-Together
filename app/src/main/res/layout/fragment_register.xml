@@ -25,7 +25,6 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
@@ -90,30 +89,47 @@
             android:text="@string/profile_picture"
             android:textSize="24sp" />
 
-        <ImageView
-            android:id="@+id/register_avatar_imv"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/avatar" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="165dp">
 
-        <ImageButton
-            android:id="@+id/register_cam_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_camera" />
+            <ImageButton
+                android:id="@+id/register_gallery_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="10dp"
+                android:src="@android:drawable/ic_menu_gallery"
+                app:layout_constraintStart_toEndOf="@+id/register_avatar_imv"
+                app:layout_constraintTop_toBottomOf="@+id/register_cam_btn" />
 
-        <ImageButton
-            android:id="@+id/register_gallery_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_gallery" />
+            <ImageButton
+                android:id="@+id/register_cam_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="30dp"
+                android:src="@android:drawable/ic_menu_camera"
+                app:layout_constraintStart_toEndOf="@+id/register_avatar_imv"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/register_avatar_imv"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/avatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/register_register_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="40dp"
             android:text="@string/register" />
 
 
