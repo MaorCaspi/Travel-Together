@@ -17,8 +17,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
@@ -31,7 +34,7 @@ public class PostListRvFragment extends Fragment {
     MyAdapter adapter;
     SwipeRefreshLayout swipeRefresh;
     Button privateUserPageBtn;
-    //ImageView avatarImv;
+    ImageButton avatarBtn;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -47,19 +50,26 @@ public class PostListRvFragment extends Fragment {
         swipeRefresh = view.findViewById(R.id.postlist_swiperefresh);
         swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshPostList());
         privateUserPageBtn=view.findViewById(R.id.postlist_userName_btn);
-        //avatarImv = view.findViewById(R.id.postlist_avatar_img);
+        avatarBtn = view.findViewById(R.id.postlist_avatar_btn);
         RecyclerView list = view.findViewById(R.id.postlist_rv);
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        avatarBtn.setOnClickListener(v -> {
+            toUserProfile();
+        });
+        privateUserPageBtn.setOnClickListener(v -> {
+            toUserProfile();
+        });
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         Model.instance.getUserByEmailAddress(mAuth.getCurrentUser().getEmail(), new Model.GetUserByEmailAddress() {
             @Override
             public void onComplete(User user) {
                 privateUserPageBtn.setText(user.getFullName());
-               /* if (user.getAvatarUrl() != null) {
-                    Picasso.get().load(user.getAvatarUrl()).into(avatarImv);
-                }*/
+                if (user.getAvatarUrl() != null) {
+                    Picasso.get().load(user.getAvatarUrl()).into(avatarBtn);
+                }
             }
         });
 
@@ -86,6 +96,11 @@ public class PostListRvFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private void toUserProfile() {
+        // TO DO !!!!!!
+        Toast.makeText(getContext(), "will open the user's page", Toast.LENGTH_SHORT).show();
     }
 
     private void refresh() {
