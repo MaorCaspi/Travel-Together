@@ -25,11 +25,11 @@
             android:text="TextView"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/listrow_avatar_imv"
+            app:layout_constraintStart_toEndOf="@+id/listrow_postImage_imv"
             app:layout_constraintTop_toBottomOf="@+id/listrow_countryName_tv" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/listrow_avatar_imv"
+            android:id="@+id/listrow_postImage_imv"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="8dp"
@@ -51,7 +51,7 @@
             android:text="TextView"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/listrow_description_tv"
-            app:layout_constraintStart_toEndOf="@+id/listrow_avatar_imv"
+            app:layout_constraintStart_toEndOf="@+id/listrow_postImage_imv"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

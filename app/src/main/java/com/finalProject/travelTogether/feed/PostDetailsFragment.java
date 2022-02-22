@@ -32,8 +32,8 @@ public class PostDetailsFragment extends Fragment {
             public void onComplete(Post post) {
                 countryNameTv.setText(post.getCountryName());
                 descriptionTv.setText(post.getDescription());
-                if (post.getAvatarUrl() != null) {
-                    Picasso.get().load(post.getAvatarUrl()).into(avatarImv);
+                if (post.getPostImageUrl() != null) {
+                    Picasso.get().load(post.getPostImageUrl()).into(avatarImv);
                 }
             }
         });

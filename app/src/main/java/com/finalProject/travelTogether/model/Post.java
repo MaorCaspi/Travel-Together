@@ -17,7 +17,7 @@ public class Post {
     String countryName = "";
     String description="";
     Long updateDate = new Long(0);
-    String avatarUrl;
+    String postImageUrl;
 
     public void setUpdateDate(Long updateDate) {
         this.updateDate = updateDate;
@@ -60,7 +60,7 @@ public class Post {
         json.put("countryName",countryName);
         json.put("description",description);
         json.put("updateDate", FieldValue.serverTimestamp());
-        json.put("avatarUrl",avatarUrl);
+        json.put("postImageUrl",postImageUrl);
         return json;
     }
 
@@ -70,11 +70,11 @@ public class Post {
         String description = (String) json.get("description");
         Timestamp ts = (Timestamp)json.get("updateDate");
         Long updateDate = ts.getSeconds();
-        String avatarUrl = (String)json.get("avatarUrl");
+        String postImageUrl = (String)json.get("postImageUrl");
 
         Post post = new Post(name,id,description);
         post.setUpdateDate(updateDate);
-        post.setAvatarUrl(avatarUrl);
+        post.setPostImageUrl(postImageUrl);
         return post;
     }
 
@@ -82,11 +82,11 @@ public class Post {
         return updateDate;
     }
 
-    public void setAvatarUrl(String url) {
-        avatarUrl = url;
+    public void setPostImageUrl(String url) {
+        postImageUrl = url;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
+    public String getPostImageUrl() {
+        return postImageUrl;
     }
 }

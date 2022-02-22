@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-        android:id="@+id/main_avatar_imv"
+        android:id="@+id/main_postImage_imv"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -34,7 +34,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_avatar_imv">
+        app:layout_constraintTop_toBottomOf="@+id/main_postImage_imv">
 
         <Spinner
             android:id="@+id/main_countryName_sp"
@@ -94,16 +94,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@android:drawable/ic_menu_camera"
-        app:layout_constraintBottom_toBottomOf="@+id/main_avatar_imv"
-        app:layout_constraintEnd_toEndOf="@+id/main_avatar_imv" />
+        app:layout_constraintBottom_toBottomOf="@+id/main_postImage_imv"
+        app:layout_constraintEnd_toEndOf="@+id/main_postImage_imv" />
 
     <ImageButton
         android:id="@+id/main_gallery_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@android:drawable/ic_menu_gallery"
-        app:layout_constraintBottom_toBottomOf="@+id/main_avatar_imv"
-        app:layout_constraintStart_toStartOf="@+id/main_avatar_imv" />
+        app:layout_constraintBottom_toBottomOf="@+id/main_postImage_imv"
+        app:layout_constraintStart_toStartOf="@+id/main_postImage_imv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

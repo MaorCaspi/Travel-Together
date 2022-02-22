@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.finalProject.travelTogether.R;
@@ -29,7 +30,8 @@ public class PostListRvFragment extends Fragment {
     PostListRvViewModel viewModel;
     MyAdapter adapter;
     SwipeRefreshLayout swipeRefresh;
-    TextView helloUser;
+    Button privateUserPageBtn;
+    //ImageView avatarImv;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -44,7 +46,8 @@ public class PostListRvFragment extends Fragment {
 
         swipeRefresh = view.findViewById(R.id.postlist_swiperefresh);
         swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshPostList());
-        helloUser=view.findViewById(R.id.postlist_helloUser_tv);
+        privateUserPageBtn=view.findViewById(R.id.postlist_userName_btn);
+        //avatarImv = view.findViewById(R.id.postlist_avatar_img);
         RecyclerView list = view.findViewById(R.id.postlist_rv);
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -53,13 +56,12 @@ public class PostListRvFragment extends Fragment {
         Model.instance.getUserByEmailAddress(mAuth.getCurrentUser().getEmail(), new Model.GetUserByEmailAddress() {
             @Override
             public void onComplete(User user) {
-                helloUser.setText("Hello "+user.getFullName());
-                /*if (user.getAvatarUrl() != null) {
+                privateUserPageBtn.setText(user.getFullName());
+               /* if (user.getAvatarUrl() != null) {
                     Picasso.get().load(user.getAvatarUrl()).into(avatarImv);
                 }*/
             }
         });
-        //helloUser.setText("Hello "+mAuth.getCurrentUser().getEmail());
 
 
         adapter = new MyAdapter();
@@ -91,7 +93,7 @@ public class PostListRvFragment extends Fragment {
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
-        ImageView avatarImv;
+        ImageView postImageImv;
         TextView countryNameTv;
         TextView descriptionTv;
 
@@ -99,7 +101,7 @@ public class PostListRvFragment extends Fragment {
             super(itemView);
             countryNameTv = itemView.findViewById(R.id.listrow_countryName_tv);
             descriptionTv = itemView.findViewById(R.id.listrow_description_tv);
-            avatarImv = itemView.findViewById(R.id.listrow_avatar_imv);
+            postImageImv = itemView.findViewById(R.id.listrow_postImage_imv);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -113,11 +115,11 @@ public class PostListRvFragment extends Fragment {
         void bind(Post post){
             countryNameTv.setText(post.getCountryName());
             descriptionTv.setText(post.getDescription());
-            avatarImv.setImageResource(R.drawable.avatar);
-            if (post.getAvatarUrl() != null) {
+            postImageImv.setImageResource(R.drawable.avatar);
+            if (post.getPostImageUrl() != null) {
                 Picasso.get()
-                        .load(post.getAvatarUrl())
-                        .into(avatarImv);
+                        .load(post.getPostImageUrl())
+                        .into(postImageImv);
             }
         }
     }

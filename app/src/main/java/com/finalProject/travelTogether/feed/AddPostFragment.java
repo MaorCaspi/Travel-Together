@@ -35,7 +35,7 @@ public class AddPostFragment extends Fragment {
     Button cancelBtn;
     ProgressBar progressBar;
     Bitmap imageBitmap;
-    ImageView avatarImv;
+    ImageView postImageImv;
     ImageButton camBtn;
     ImageButton galleryBtn;
 
@@ -56,7 +56,7 @@ public class AddPostFragment extends Fragment {
         cancelBtn = view.findViewById(R.id.main_cancel_btn);
         progressBar = view.findViewById(R.id.main_progressbar);
         progressBar.setVisibility(View.GONE);
-        avatarImv = view.findViewById(R.id.main_avatar_imv);
+        postImageImv = view.findViewById(R.id.main_postImage_imv);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +115,7 @@ public class AddPostFragment extends Fragment {
                 return;
             }
         }
-        avatarImv.setImageBitmap(imageBitmap);
+        postImageImv.setImageBitmap(imageBitmap);
     }
 
     private void save() {
@@ -135,7 +135,7 @@ public class AddPostFragment extends Fragment {
             });
         }else{
             Model.instance.saveImage(imageBitmap, id + ".jpg", url -> {
-                post.setAvatarUrl(url);
+                post.setPostImageUrl(url);
                 Model.instance.addPost(post,()->{
                     Navigation.findNavController(getView()).navigateUp();
                 });

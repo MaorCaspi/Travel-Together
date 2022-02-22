@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".feed.PostListRvFragment">
 
-    <TextView
-        android:id="@+id/postlist_helloUser_tv"
+    <Button
+        android:id="@+id/postlist_userName_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="34sp"
