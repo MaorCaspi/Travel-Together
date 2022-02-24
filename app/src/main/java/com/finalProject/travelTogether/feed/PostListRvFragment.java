@@ -21,12 +21,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
-import com.finalProject.travelTogether.model.User;
-import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 public class PostListRvFragment extends Fragment {
@@ -61,18 +58,11 @@ public class PostListRvFragment extends Fragment {
         privateUserPageBtn.setOnClickListener(v -> {
             toUserProfile();
         });
-
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        Model.instance.getUserByEmailAddress(mAuth.getCurrentUser().getEmail(), new Model.GetUserByEmailAddress() {
-            @Override
-            public void onComplete(User user) {
-                privateUserPageBtn.setText(user.getFullName());
-                if (user.getAvatarUrl() != null) {
-                    Picasso.get().load(user.getAvatarUrl()).into(avatarBtn);
-                }
-            }
-        });
-
+        privateUserPageBtn.setText(viewModel.getUserFullName());
+        String avatarUrl=viewModel.getAvatarURL();
+        if (avatarUrl != null) {
+            Picasso.get().load(avatarUrl).into(avatarBtn);
+        }
 
         adapter = new MyAdapter();
         list.setAdapter(adapter);
