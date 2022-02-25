@@ -10,11 +10,23 @@ abstract class AppLocalDbRepository extends RoomDatabase {
     public abstract PostDao postDao();
 }
 
+@Database(entities = {User.class}, version = 3)
+abstract class UsersAppLocalDbRepository extends RoomDatabase {
+    public abstract UserDao userDao();
+}
+
 public class AppLocalDb{
     static public AppLocalDbRepository db =
             Room.databaseBuilder(MyApplication.getContext(),
                     AppLocalDbRepository.class,
-                    "dbFileName.db")
+                    "posts.db")
+                    .fallbackToDestructiveMigration()
+                    .build();
+
+    static public UsersAppLocalDbRepository usersDb =
+            Room.databaseBuilder(MyApplication.getContext(),
+                    UsersAppLocalDbRepository.class,
+                    "users.db")
                     .fallbackToDestructiveMigration()
                     .build();
 }

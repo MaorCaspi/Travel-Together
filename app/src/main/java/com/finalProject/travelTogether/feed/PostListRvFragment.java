@@ -58,11 +58,12 @@ public class PostListRvFragment extends Fragment {
         privateUserPageBtn.setOnClickListener(v -> {
             toUserProfile();
         });
-        privateUserPageBtn.setText(viewModel.getUserFullName());
-        String avatarUrl=viewModel.getAvatarURL();
+        //String temp=viewModel.getUsersData().getValue().get(0).getFullName();
+        //privateUserPageBtn.setText(temp);
+        /*String avatarUrl=viewModel.getAvatarURL();
         if (avatarUrl != null) {
             Picasso.get().load(avatarUrl).into(avatarBtn);
-        }
+        }*/
 
         adapter = new MyAdapter();
         list.setAdapter(adapter);

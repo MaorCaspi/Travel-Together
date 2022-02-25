@@ -18,6 +18,13 @@ public class Model {
     public Executor executor = Executors.newFixedThreadPool(1);
     public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
 
+    ModelFirebase modelFirebase = new ModelFirebase();
+
+    private Model() {
+        postListLoadingState.setValue(PostListLoadingState.loaded);
+    }
+
+    /* Posts */
 
     public enum PostListLoadingState {
         loading,
@@ -28,12 +35,6 @@ public class Model {
 
     public LiveData<PostListLoadingState> getPostListLoadingState() {
         return postListLoadingState;
-    }
-
-    ModelFirebase modelFirebase = new ModelFirebase();
-
-    private Model() {
-        postListLoadingState.setValue(PostListLoadingState.loaded);
     }
 
     MutableLiveData<List<Post>> postsList = new MutableLiveData<List<Post>>();
@@ -109,6 +110,7 @@ public class Model {
         return null;
     }
 
+    /* Firebase Storage */
 
     public interface SaveImageListener {
         void onComplete(String url);
@@ -124,7 +126,58 @@ public class Model {
         return modelFirebase.isSignedIn();
     }
 
-    /* user */
+    /* Users */
+
+    MutableLiveData<List<User>> usersList = new MutableLiveData<List<User>>();
+
+    public LiveData<List<User>> getAllUsers() {
+        if (usersList.getValue() == null) {
+            refreshUserList();
+        }
+        return usersList;
+    }
+
+    public void refreshUserList() {
+
+        // get last local update date
+        Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("userListLoadingState", 0);
+
+        executor.execute(() -> {
+            List<User> usList = AppLocalDb.usersDb.userDao().getAll();
+            usersList.postValue(usList);
+        });
+
+        // firebase get all updates since lastLocalUpdateDate
+        modelFirebase.getAllUsers(lastUpdateDate, new ModelFirebase.GetAllUsersListener() {
+            @Override
+            public void onComplete(List<User> list) {
+                // add all records to the local db
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        Long lud = new Long(0);
+                        Log.d("TAG", "fb returned " + list.size());
+                        for (User user : list) {
+                            AppLocalDb.usersDb.userDao().insertAll(user);
+                            if (lud < user.getUpdateDate()) {
+                                lud = user.getUpdateDate();
+                            }
+                        }
+                        // update last local update date
+                        MyApplication.getContext()
+                                .getSharedPreferences("TAG", Context.MODE_PRIVATE)
+                                .edit()
+                                .putLong("UsersLastUpdateDate", lud)
+                                .commit();
+
+                        //return all data to caller
+                        List<User> usList = AppLocalDb.usersDb.userDao().getAll();
+                        usersList.postValue(usList);
+                    }
+                });
+            }
+        });
+    }
 
     public interface AddUserListener {
         void onComplete();

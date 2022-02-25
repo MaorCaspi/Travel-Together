@@ -31,9 +31,12 @@ public class ModelFirebase {
         db.setFirestoreSettings(settings);
     }
 
+    /* Posts */
+
     public interface GetAllPostsListener{
         void onComplete(List<Post> list);
     }
+
     //TODO: fix since...
     public void getAllPosts(Long lastUpdateDate, GetAllPostsListener listener) {
         db.collection(Post.COLLECTION_NAME)
@@ -78,9 +81,7 @@ public class ModelFirebase {
                 });
     }
 
-    /**
-     * Firebase Storage
-     */
+    /* Firebase Storage */
     FirebaseStorage storage = FirebaseStorage.getInstance();
     public void saveImage(Bitmap imageBitmap, String imageName, Model.SaveImageListener listener, int type) {
         StorageReference storageRef = storage.getReference();
@@ -118,7 +119,7 @@ public class ModelFirebase {
         return (currentUser != null);
     }
 
-    /* user */
+    /* Users */
     public void addUser(User user, Model.AddUserListener listener) {
         Map<String, Object> json = user.toJson();
         db.collection(User.COLLECTION_NAME)
@@ -141,6 +142,29 @@ public class ModelFirebase {
                         }
                         listener.onComplete(user);
                     }
+                });
+    }
+
+    public interface GetAllUsersListener{
+        void onComplete(List<User> list);
+    }
+
+    //TODO: fix since...
+    public void getAllUsers(Long lastUpdateDate, GetAllUsersListener listener) {
+        db.collection(User.COLLECTION_NAME)
+                .whereGreaterThanOrEqualTo("updateDate",new Timestamp(lastUpdateDate,0))
+                .get()
+                .addOnCompleteListener(task -> {
+                    List<User> list = new LinkedList<User>();
+                    if (task.isSuccessful()){
+                        for (QueryDocumentSnapshot doc : task.getResult()){
+                            User user = User.create(doc.getData());
+                            if (user != null){
+                                list.add(user);
+                            }
+                        }
+                    }
+                    listener.onComplete(list);
                 });
     }
 }
