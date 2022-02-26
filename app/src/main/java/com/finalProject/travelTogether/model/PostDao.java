@@ -1,7 +1,6 @@
 package com.finalProject.travelTogether.model;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -15,7 +14,4 @@ public interface PostDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Post... posts);
-
-    @Delete
-    void delete(Post post);
 }

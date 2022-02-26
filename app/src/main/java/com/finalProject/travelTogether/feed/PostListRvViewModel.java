@@ -1,13 +1,11 @@
 package com.finalProject.travelTogether.feed;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
 import com.finalProject.travelTogether.model.User;
 import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.List;
 
 public class PostListRvViewModel extends ViewModel {

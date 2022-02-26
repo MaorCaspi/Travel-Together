@@ -37,7 +37,6 @@ public class ModelFirebase {
         void onComplete(List<Post> list);
     }
 
-    //TODO: fix since...
     public void getAllPosts(Long lastUpdateDate, GetAllPostsListener listener) {
         db.collection(Post.COLLECTION_NAME)
                 .whereGreaterThanOrEqualTo("updateDate",new Timestamp(lastUpdateDate,0))
@@ -133,7 +132,6 @@ public class ModelFirebase {
         void onComplete(List<User> list);
     }
 
-    //TODO: fix since...
     public void getAllUsers(Long lastUpdateDate, GetAllUsersListener listener) {
         db.collection(User.COLLECTION_NAME)
                 .whereGreaterThanOrEqualTo("updateDate",new Timestamp(lastUpdateDate,0))
