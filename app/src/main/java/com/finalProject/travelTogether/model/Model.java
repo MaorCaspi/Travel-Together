@@ -129,6 +129,7 @@ public class Model {
     /* Users */
 
     MutableLiveData<List<User>> usersList = new MutableLiveData<List<User>>();
+    MutableLiveData<User> user = new MutableLiveData<User>();
 
     public LiveData<List<User>> getAllUsers() {
         if (usersList.getValue() == null) {
@@ -189,12 +190,11 @@ public class Model {
         });
     }
 
-    public interface GetUserByEmailAddress {
-        void onComplete(User user);
-    }
-
-    public User getUserByEmailAddress(String emailAddress, GetUserByEmailAddress listener) {
-        modelFirebase.getUserByEmailAddress(emailAddress, listener);
-        return null;
+    public LiveData<User> getUserByEmailAddress(String emailAddress) {
+        executor.execute(() -> {
+            User result = AppLocalDb.usersDb.userDao().getUserByEmailAddress(emailAddress);
+            user.postValue(result);;
+        });
+        return user;
     }
 }

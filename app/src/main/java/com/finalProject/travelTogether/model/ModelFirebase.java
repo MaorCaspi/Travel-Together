@@ -129,22 +129,6 @@ public class ModelFirebase {
                 .addOnFailureListener(e -> listener.onComplete());
     }
 
-    public void getUserByEmailAddress(String emailAddress, Model.GetUserByEmailAddress listener) {
-        db.collection(User.COLLECTION_NAME)
-                .document(emailAddress)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        User user = null;
-                        if (task.isSuccessful() & task.getResult()!= null){
-                            user = User.create(task.getResult().getData());
-                        }
-                        listener.onComplete(user);
-                    }
-                });
-    }
-
     public interface GetAllUsersListener{
         void onComplete(List<User> list);
     }
