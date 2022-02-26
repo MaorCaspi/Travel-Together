@@ -1,5 +1,6 @@
 package com.finalProject.travelTogether.feed;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import com.finalProject.travelTogether.model.Model;
@@ -18,6 +19,7 @@ public class PostListRvViewModel extends ViewModel {
         data = Model.instance.getAll();
         usersData = Model.instance.getAllUsers();
         currentUser = Model.instance.getUserByEmailAddress(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+
     }
 
     public LiveData<List<Post>> getData() {
@@ -29,6 +31,7 @@ public class PostListRvViewModel extends ViewModel {
     }
 
     public LiveData<User> getCurrentUser() {
+        currentUser = Model.instance.getUserByEmailAddress(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         return currentUser;
     }
 }

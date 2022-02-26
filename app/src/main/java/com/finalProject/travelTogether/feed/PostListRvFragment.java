@@ -67,6 +67,9 @@ public class PostListRvFragment extends Fragment {
                 }
             }
         });
+        viewModel.getUsersData().observe(getViewLifecycleOwner(),l -> {
+            viewModel.getCurrentUser();
+        });
 
         adapter = new MyAdapter();
         list.setAdapter(adapter);
