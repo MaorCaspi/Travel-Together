@@ -24,7 +24,6 @@ import android.widget.Toast;
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
-import com.finalProject.travelTogether.model.User;
 import com.squareup.picasso.Picasso;
 
 public class PostListRvFragment extends Fragment {
@@ -66,6 +65,9 @@ public class PostListRvFragment extends Fragment {
                 if (avatarUrl != null) {
                     Picasso.get().load(avatarUrl).into(avatarBtn);
                 }
+                else{// if the user doesn't have profile picture
+                    avatarBtn.setImageResource(R.drawable.avatar);
+                }
             }
         });
         viewModel.getUsersData().observe(getViewLifecycleOwner(),l -> {
@@ -103,6 +105,7 @@ public class PostListRvFragment extends Fragment {
 
     private void refresh() {
         adapter.notifyDataSetChanged();
+        viewModel.getCurrentUser();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{

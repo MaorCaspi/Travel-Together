@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @Entity
@@ -20,7 +21,7 @@ public class User {
     String avatarUrl;
 
     public User(@NonNull String emailAddress, String fullName) {
-        this.emailAddress = emailAddress;
+        this.emailAddress = emailAddress.toLowerCase();
         this.fullName = fullName;
     }
 
@@ -34,7 +35,7 @@ public class User {
     }
 
     public void setEmailAddress(@NonNull String emailAddress) {
-        this.emailAddress = emailAddress;
+        this.emailAddress = emailAddress.toLowerCase();
     }
 
     public String getFullName() {
