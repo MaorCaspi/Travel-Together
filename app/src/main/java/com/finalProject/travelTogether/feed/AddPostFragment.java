@@ -23,6 +23,8 @@ import android.widget.Spinner;
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.io.IOException;
 import java.util.UUID;
 
@@ -126,9 +128,9 @@ public class AddPostFragment extends Fragment {
         galleryBtn.setEnabled(false);
         String countryName = countryNameSP.getSelectedItem().toString();
         String description = descriptionEt.getText().toString();
+        String authorEmailAddress = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         String id = UUID.randomUUID().toString();
-        Log.d("TAG","country name:" + countryName + " id:" + id + " description:" + description);
-        Post post = new Post(countryName,id,description);
+        Post post = new Post(countryName,id,description,authorEmailAddress);
         if (imageBitmap == null){
             Model.instance.addPost(post,()->{
                 Navigation.findNavController(getView()).navigateUp();

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
+import com.finalProject.travelTogether.model.User;
 import com.squareup.picasso.Picasso;
 
 public class PostListRvFragment extends Fragment {
@@ -108,12 +109,15 @@ public class PostListRvFragment extends Fragment {
         ImageView postImageImv;
         TextView countryNameTv;
         TextView descriptionTv;
+        TextView authorNameTv;
+        ImageView authorImageImv;
 
         public MyViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             countryNameTv = itemView.findViewById(R.id.listrow_countryName_tv);
             descriptionTv = itemView.findViewById(R.id.listrow_description_tv);
             postImageImv = itemView.findViewById(R.id.listrow_postImage_imv);
+            authorNameTv = itemView.findViewById(R.id.listrow_authorName_tv);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -127,6 +131,7 @@ public class PostListRvFragment extends Fragment {
         void bind(Post post){
             countryNameTv.setText(post.getCountryName());
             descriptionTv.setText(post.getDescription());
+            authorNameTv.setText(post.getAuthorEmailAddress());//////////////
             postImageImv.setImageResource(R.drawable.avatar);
             if (post.getPostImageUrl() != null) {
                 Picasso.get()

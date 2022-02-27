@@ -18,16 +18,18 @@ public class Post {
     String description="";
     Long updateDate = new Long(0);
     String postImageUrl;
+    String authorEmailAddress;
 
     public void setUpdateDate(Long updateDate) {
         this.updateDate = updateDate;
     }
 
     public Post(){}
-    public Post(String countryName, String id, String description) {
+    public Post(String countryName, String id, String description, String authorEmailAddress) {
         this.countryName = countryName;
         this.id = id;
         this.description=description;
+        this.authorEmailAddress=authorEmailAddress;
     }
 
     public void setId(String id) {
@@ -54,28 +56,12 @@ public class Post {
         return id;
     }
 
-    public Map<String, Object> toJson() {
-        Map<String, Object> json = new HashMap<String, Object>();
-        json.put("id",id);
-        json.put("countryName",countryName);
-        json.put("description",description);
-        json.put("updateDate", FieldValue.serverTimestamp());
-        json.put("postImageUrl",postImageUrl);
-        return json;
+    public String getAuthorEmailAddress() {
+        return authorEmailAddress;
     }
 
-    public static Post create(Map<String, Object> json) {
-        String id = (String) json.get("id");
-        String name = (String) json.get("countryName");
-        String description = (String) json.get("description");
-        Timestamp ts = (Timestamp)json.get("updateDate");
-        Long updateDate = ts.getSeconds();
-        String postImageUrl = (String)json.get("postImageUrl");
-
-        Post post = new Post(name,id,description);
-        post.setUpdateDate(updateDate);
-        post.setPostImageUrl(postImageUrl);
-        return post;
+    public void setAuthorEmailAddress(String authorEmailAddress) {
+        this.authorEmailAddress = authorEmailAddress;
     }
 
     public Long getUpdateDate() {
@@ -88,5 +74,31 @@ public class Post {
 
     public String getPostImageUrl() {
         return postImageUrl;
+    }
+
+    public Map<String, Object> toJson() {
+        Map<String, Object> json = new HashMap<String, Object>();
+        json.put("id",id);
+        json.put("countryName",countryName);
+        json.put("description",description);
+        json.put("updateDate", FieldValue.serverTimestamp());
+        json.put("postImageUrl",postImageUrl);
+        json.put("authorEmailAddress",authorEmailAddress);
+        return json;
+    }
+
+    public static Post create(Map<String, Object> json) {
+        String id = (String) json.get("id");
+        String name = (String) json.get("countryName");
+        String description = (String) json.get("description");
+        Timestamp ts = (Timestamp)json.get("updateDate");
+        Long updateDate = ts.getSeconds();
+        String postImageUrl = (String)json.get("postImageUrl");
+        String authorEmailAddress = (String)json.get("authorEmailAddress");
+
+        Post post = new Post(name,id,description,authorEmailAddress);
+        post.setUpdateDate(updateDate);
+        post.setPostImageUrl(postImageUrl);
+        return post;
     }
 }
