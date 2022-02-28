@@ -1,38 +1,36 @@
 package com.finalProject.travelTogether.feed;
 
+import android.content.Context;
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import android.content.Context;
-import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
-import com.finalProject.travelTogether.model.User;
 import com.squareup.picasso.Picasso;
 
-public class PostListRvFragment extends Fragment {
+
+public class ProfileFragment extends Fragment {
     PostListRvViewModel viewModel;
+    ImageView img;
+    TextView name,age, description;
     MyAdapter adapter;
-    SwipeRefreshLayout swipeRefresh;
-    Button privateUserPageBtn;
-    ImageButton avatarBtn;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -40,76 +38,46 @@ public class PostListRvFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(PostListRvViewModel.class);
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_posts_list,container,false);
+    public ProfileFragment() {
+        // Required empty public constructor
+    }
 
-        swipeRefresh = view.findViewById(R.id.postlist_swiperefresh);
-        swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshPostList());
-        privateUserPageBtn=view.findViewById(R.id.postlist_userName_btn);
-        avatarBtn = view.findViewById(R.id.postlist_avatar_btn);
-        RecyclerView list = view.findViewById(R.id.postlist_rv);
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        img = view.findViewById(R.id.profile_img);
+        name = view.findViewById(R.id.profile_name);
+        age = view.findViewById(R.id.profile_age);
+        description = view.findViewById(R.id.profile_description);
+        RecyclerView list = view.findViewById(R.id.profile_rv);
+
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
-        String userEmail="maya.assyag@gmail.com";
-
-
-        avatarBtn.setOnClickListener(v -> {
-            toUserProfile(view,userEmail);
-        });
-        privateUserPageBtn.setOnClickListener(v -> {
-            toUserProfile(view,userEmail);
-        });
-        viewModel.getCurrentUser().observe(getViewLifecycleOwner(),user -> {
-            if(user!=null) {
-                privateUserPageBtn.setText(user.getFullName());
-                String avatarUrl = user.getAvatarUrl();
-                if (avatarUrl != null) {
-                    Picasso.get().load(avatarUrl).into(avatarBtn);
-                }
-            }
-        });
-        viewModel.getUsersData().observe(getViewLifecycleOwner(),l -> {
-            viewModel.getCurrentUser();
-        });
 
         adapter = new MyAdapter();
         list.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View v,int position) {
-                String stId = viewModel.getData().getValue().get(position).getId();
-                Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(stId));
-            }
-        });
-
-        setHasOptionsMenu(true);
-        viewModel.getData().observe(getViewLifecycleOwner(), list1 -> refresh());
-        swipeRefresh.setRefreshing(Model.instance.getPostListLoadingState().getValue() == Model.PostListLoadingState.loading);
-        Model.instance.getPostListLoadingState().observe(getViewLifecycleOwner(), postListLoadingState -> {
-            if (postListLoadingState == Model.PostListLoadingState.loading){
-                swipeRefresh.setRefreshing(true);
-            }else{
-                swipeRefresh.setRefreshing(false);
-            }
-        });
+//        adapter.setOnItemClickListener(new ProfileFragment.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View v,int position) {
+//                String stId = viewModel.getData().getValue().get(position).getId();
+//                Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(stId));
+//            }
+//        });
         return view;
     }
 
-    private void toUserProfile(View v, String email) {
-        // TO DO !!!!!!
-        //Toast.makeText(getContext(), "will open the user's page", Toast.LENGTH_SHORT).show();
-        Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToProfileFragment(email));
-
-    }
-
-    private void refresh() {
-        adapter.notifyDataSetChanged();
-    }
-
-     class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView postImageImv;
         TextView countryNameTv;
         TextView descriptionTv;
@@ -148,7 +116,7 @@ public class PostListRvFragment extends Fragment {
     interface OnItemClickListener{
         void onItemClick(View v,int position);
     }
-    class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
+    class MyAdapter extends RecyclerView.Adapter<ProfileFragment.MyViewHolder>{
 
         OnItemClickListener listener;
         public void setOnItemClickListener(OnItemClickListener listener){
@@ -157,14 +125,14 @@ public class PostListRvFragment extends Fragment {
 
         @NonNull
         @Override
-        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public ProfileFragment.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.post_list_row,parent,false);
-            MyViewHolder holder = new MyViewHolder(view,listener);
+            ProfileFragment.MyViewHolder holder = new ProfileFragment.MyViewHolder(view,listener);
             return holder;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ProfileFragment.MyViewHolder holder, int position) {
             Post post = viewModel.getData().getValue().get(position);
             holder.bind(post);
         }
