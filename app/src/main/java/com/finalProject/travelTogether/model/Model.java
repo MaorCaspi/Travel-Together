@@ -144,7 +144,7 @@ public class Model {
         Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("userListLoadingState", 0);
 
         executor.execute(() -> {
-            List<User> usList = AppLocalDb.usersDb.userDao().getAll();
+            List<User> usList = AppLocalDb.db.userDao().getAll();
             usersList.postValue(usList);
         });
 
@@ -159,7 +159,7 @@ public class Model {
                         Long lud = new Long(0);
                         Log.d("TAG", "fb returned " + list.size());
                         for (User user : list) {
-                            AppLocalDb.usersDb.userDao().insertAll(user);
+                            AppLocalDb.db.userDao().insertAll(user);
                             if (lud < user.getUpdateDate()) {
                                 lud = user.getUpdateDate();
                             }
@@ -172,7 +172,7 @@ public class Model {
                                 .commit();
 
                         //return all data to caller
-                        List<User> usList = AppLocalDb.usersDb.userDao().getAll();
+                        List<User> usList = AppLocalDb.db.userDao().getAll();
                         usersList.postValue(usList);
                     }
                 });
@@ -192,7 +192,7 @@ public class Model {
 
     public LiveData<User> getUserByEmailAddress(String emailAddress) {
         executor.execute(() -> {
-            User result = AppLocalDb.usersDb.userDao().getUserByEmailAddress(emailAddress);
+            User result = AppLocalDb.db.userDao().getUserByEmailAddress(emailAddress);
             user.postValue(result);;
         });
         return user;
