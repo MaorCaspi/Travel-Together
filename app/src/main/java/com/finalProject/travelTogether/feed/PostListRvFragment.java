@@ -39,6 +39,12 @@ public class PostListRvFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(PostListRvViewModel.class);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -105,7 +111,7 @@ public class PostListRvFragment extends Fragment {
 
     private void refresh() {
         adapter.notifyDataSetChanged();
-        viewModel.getCurrentUser();
+        Model.instance.refreshUserList();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
