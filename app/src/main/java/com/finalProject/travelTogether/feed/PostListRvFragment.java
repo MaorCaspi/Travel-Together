@@ -43,6 +43,12 @@ public class PostListRvFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(PostListRvViewModel.class);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,6 +75,9 @@ public class PostListRvFragment extends Fragment {
                 String avatarUrl = user.getAvatarUrl();
                 if (avatarUrl != null) {
                     Picasso.get().load(avatarUrl).into(avatarBtn);
+                }
+                else{// if the user doesn't have profile picture
+                    avatarBtn.setImageResource(R.drawable.avatar);
                 }
             }
         });
@@ -111,6 +120,7 @@ public class PostListRvFragment extends Fragment {
 
     private void refresh() {
         adapter.notifyDataSetChanged();
+        Model.instance.refreshUserList();
     }
 
      class MyViewHolder extends RecyclerView.ViewHolder{

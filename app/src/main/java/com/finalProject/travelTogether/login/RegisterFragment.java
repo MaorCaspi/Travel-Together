@@ -18,7 +18,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.feed.BaseActivity;
 import com.finalProject.travelTogether.model.Model;
@@ -27,7 +26,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 
@@ -98,7 +96,6 @@ public class RegisterFragment extends Fragment {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "createUserWithEmail:success");
                             createNewUser();;
-                            FirebaseUser user = mAuth.getCurrentUser();
                             toFeedActivity();
                         }
                         else {//If the registration was failed
@@ -164,8 +161,17 @@ public class RegisterFragment extends Fragment {
     }
 
     private void toFeedActivity() {
-        Intent intent = new Intent(getContext(), BaseActivity.class);
-        startActivity(intent);
-        getActivity().finish();
+        Model.instance.executor.execute(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            finally {
+                Intent intent = new Intent(getContext(), BaseActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
     }
 }
