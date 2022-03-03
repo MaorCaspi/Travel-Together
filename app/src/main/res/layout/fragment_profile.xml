@@ -28,10 +28,10 @@
                 android:layout_height="wrap_content"
                 android:text="name"/>
             <TextView
-                android:id="@+id/profile_age"
+                android:id="@+id/profile_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="age"/>
+                android:text="email"/>
         </LinearLayout>
 
         <ImageView

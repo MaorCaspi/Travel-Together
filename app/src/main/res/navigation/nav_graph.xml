@@ -22,9 +22,9 @@
         android:name="com.finalProject.travelTogether.feed.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile">
-        <argument
-            android:name="userId"
-            app:argType="string" />
+<!--        <argument-->
+<!--            android:name="userId"-->
+<!--            app:argType="LiveData<User>" />-->
 <!--        <action-->
 <!--            android:id="@+id/action_postListRvFragment_to_profileFragment"-->
 <!--            app:destination="@id/profileFragment" />-->

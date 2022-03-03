@@ -10,6 +10,7 @@ import java.util.List;
 
 public class PostListRvViewModel extends ViewModel {
     LiveData<List<Post>> data;
+    LiveData<List<Post>> userPosts;
     LiveData<List<User>> usersData;
     LiveData<User> currentUser;
 
@@ -17,7 +18,7 @@ public class PostListRvViewModel extends ViewModel {
         data = Model.instance.getAll();
         usersData = Model.instance.getAllUsers();
         currentUser = Model.instance.getUserByEmailAddress(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-
+        userPosts = Model.instance.getUserPosts();
     }
 
     public LiveData<List<Post>> getData() {
@@ -28,8 +29,12 @@ public class PostListRvViewModel extends ViewModel {
         return usersData;
     }
 
+    public LiveData<List<Post>> getUserPosts() {
+        return userPosts;
+    }
+
     public LiveData<User> getCurrentUser() {
-        currentUser = Model.instance.getUserByEmailAddress(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        //  currentUser = Model.instance.getUserByEmailAddress(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         return currentUser;
     }
 }

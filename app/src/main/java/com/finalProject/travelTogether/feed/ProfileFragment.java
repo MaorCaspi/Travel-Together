@@ -4,7 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,14 +24,18 @@ import android.widget.TextView;
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
+import com.finalProject.travelTogether.model.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 
 public class ProfileFragment extends Fragment {
     PostListRvViewModel viewModel;
     ImageView img;
-    TextView name,age, description;
+    TextView name, email, description;
     MyAdapter adapter;
+    //String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
 
 
     @Override
@@ -51,13 +57,12 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         img = view.findViewById(R.id.profile_img);
         name = view.findViewById(R.id.profile_name);
-        age = view.findViewById(R.id.profile_age);
+        email = view.findViewById(R.id.profile_email);
         description = view.findViewById(R.id.profile_description);
         RecyclerView list = view.findViewById(R.id.profile_rv);
 
@@ -67,6 +72,12 @@ public class ProfileFragment extends Fragment {
         adapter = new MyAdapter();
         list.setAdapter(adapter);
 
+        viewModel.getCurrentUser().observe(getViewLifecycleOwner(), user -> {
+            name.setText(user.getFullName());
+            email.setText(user.getEmailAddress());
+
+                });
+
 //        adapter.setOnItemClickListener(new ProfileFragment.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(View v,int position) {
@@ -74,6 +85,14 @@ public class ProfileFragment extends Fragment {
 //                Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(stId));
 //            }
 //        });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
         return view;
     }
 
@@ -133,16 +152,16 @@ public class ProfileFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ProfileFragment.MyViewHolder holder, int position) {
-            Post post = viewModel.getData().getValue().get(position);
+            Post post = viewModel.getUserPosts().getValue().get(position);
             holder.bind(post);
         }
 
         @Override
         public int getItemCount() {
-            if(viewModel.getData().getValue() == null){
+            if(viewModel.getUserPosts().getValue() == null){
                 return 0;
             }
-            return viewModel.getData().getValue().size();
+            return viewModel.getUserPosts().getValue().size();
         }
     }
 

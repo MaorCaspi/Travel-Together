@@ -9,6 +9,9 @@ import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.finalProject.travelTogether.MyApplication;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -38,12 +41,20 @@ public class Model {
     }
 
     MutableLiveData<List<Post>> postsList = new MutableLiveData<List<Post>>();
+    MutableLiveData<List<Post>> userPostsList = new MutableLiveData<List<Post>>();
 
     public LiveData<List<Post>> getAll() {
         if (postsList.getValue() == null) {
             refreshPostList();
         }
         return postsList;
+    }
+
+    public LiveData<List<Post>> getUserPosts() {
+        if (userPostsList.getValue() == null) {
+            refreshPostList();
+        }
+        return userPostsList;
     }
 
     public void refreshPostList() {
@@ -83,6 +94,14 @@ public class Model {
                         //return all data to caller
                         List<Post> stList = AppLocalDb.db.postDao().getAll();
                         postsList.postValue(stList);
+                        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                        List<Post> usList=new ArrayList<>();
+                        for(Post post : stList){
+                            if(post.getAuthorEmailAddress().equals(email)){
+                                usList.add(post);
+                            }
+                        }
+                        userPostsList.postValue(usList);
                         postListLoadingState.postValue(PostListLoadingState.loaded);
                     }
                 });
