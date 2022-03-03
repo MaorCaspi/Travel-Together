@@ -3,6 +3,7 @@ package com.finalProject.travelTogether.feed;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
+import com.finalProject.travelTogether.model.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 public class PostListRvFragment extends Fragment {
@@ -32,6 +35,7 @@ public class PostListRvFragment extends Fragment {
     SwipeRefreshLayout swipeRefresh;
     Button privateUserPageBtn;
     ImageButton avatarBtn;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -58,11 +62,12 @@ public class PostListRvFragment extends Fragment {
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
         avatarBtn.setOnClickListener(v -> {
-            toUserProfile();
+            toUserProfile(view);
         });
         privateUserPageBtn.setOnClickListener(v -> {
-            toUserProfile();
+            toUserProfile(view);
         });
         viewModel.getCurrentUser().observe(getViewLifecycleOwner(),user -> {
             if(user!=null) {
@@ -104,9 +109,13 @@ public class PostListRvFragment extends Fragment {
         return view;
     }
 
-    private void toUserProfile() {
+    private void toUserProfile(View v) {
         // TO DO !!!!!!
-        Toast.makeText(getContext(), "will open the user's page", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "will open the user's page", Toast.LENGTH_SHORT).show();
+
+
+        Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToProfileFragment());
+
     }
 
     private void refresh() {
@@ -114,7 +123,7 @@ public class PostListRvFragment extends Fragment {
         Model.instance.refreshUserList();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
+     class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView postImageImv;
         TextView countryNameTv;
         TextView descriptionTv;
