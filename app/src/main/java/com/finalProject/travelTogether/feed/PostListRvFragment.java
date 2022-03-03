@@ -3,7 +3,6 @@ package com.finalProject.travelTogether.feed;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,12 +20,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
-import com.finalProject.travelTogether.model.User;
-import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 public class PostListRvFragment extends Fragment {
@@ -35,7 +31,6 @@ public class PostListRvFragment extends Fragment {
     SwipeRefreshLayout swipeRefresh;
     Button privateUserPageBtn;
     ImageButton avatarBtn;
-
 
     @Override
     public void onAttach(@NonNull Context context) {
