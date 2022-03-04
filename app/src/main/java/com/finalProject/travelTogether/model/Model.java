@@ -9,6 +9,7 @@ import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.finalProject.travelTogether.MyApplication;
+import com.finalProject.travelTogether.feed.relations.PostAndUser;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -93,6 +94,7 @@ public class Model {
 
                         //return all data to caller
                         List<Post> stList = AppLocalDb.db.postDao().getAll();
+                        List<PostAndUser> usList2 = AppLocalDb.db.postDao().getMaor();///////////////////////////
                         postsList.postValue(stList);
                         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
                         List<Post> usList=new ArrayList<>();
