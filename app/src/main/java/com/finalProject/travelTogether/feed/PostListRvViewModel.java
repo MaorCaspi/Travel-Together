@@ -19,7 +19,7 @@ public class PostListRvViewModel extends ViewModel {
     public PostListRvViewModel(){
         data = Model.instance.getAll();
         usersData = Model.instance.getAllUsers();
-        currentUser = Model.instance.getUserByEmailAddress(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        currentUser = Model.instance.getCurrentUser();
         userPosts = Model.instance.getUserPosts();
     }
 
@@ -36,7 +36,7 @@ public class PostListRvViewModel extends ViewModel {
     }
 
     public LiveData<User> getCurrentUser() {
-        currentUser = Model.instance.getUserByEmailAddress(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        currentUser = Model.instance.getCurrentUser();
         return currentUser;
     }
 }

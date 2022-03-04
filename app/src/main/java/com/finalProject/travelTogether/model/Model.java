@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -77,7 +76,6 @@ public class Model {
                     @Override
                     public void run() {
                         Long lud = new Long(0);
-                        Log.d("TAG", "fb returned " + list.size());
                         for (Post post : list) {
                             AppLocalDb.db.postDao().insertAll(post);
                             if (lud < post.getUpdateDate()) {
@@ -176,7 +174,6 @@ public class Model {
                     @Override
                     public void run() {
                         Long lud = new Long(0);
-                        Log.d("TAG", "fb returned " + list.size());
                         for (User user : list) {
                             AppLocalDb.db.userDao().insertAll(user);
                             if (lud < user.getUpdateDate()) {
@@ -209,10 +206,10 @@ public class Model {
         });
     }
 
-    public LiveData<User> getUserByEmailAddress(String emailAddress) {
+    public LiveData<User> getCurrentUser() {
         executor.execute(() -> {
-            User result = AppLocalDb.db.userDao().getUserByEmailAddress(emailAddress);
-            user.postValue(result);;
+            User result = AppLocalDb.db.userDao().getUserByEmailAddress(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+            user.postValue(result);
         });
         return user;
     }
