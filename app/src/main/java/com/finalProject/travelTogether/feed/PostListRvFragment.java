@@ -84,13 +84,6 @@ public class PostListRvFragment extends Fragment {
         adapter = new MyAdapter();
         list.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View v,int position) {
-                String stId = viewModel.getData().getValue().get(position).post.getId();
-                Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(stId));
-            }
-        });
 
         setHasOptionsMenu(true);
         viewModel.getData().observe(getViewLifecycleOwner(), list1 -> refresh());
@@ -106,12 +99,7 @@ public class PostListRvFragment extends Fragment {
     }
 
     private void toUserProfile(View v) {
-        // TO DO !!!!!!
-        //Toast.makeText(getContext(), "will open the user's page", Toast.LENGTH_SHORT).show();
-
-
         Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToProfileFragment());
-
     }
 
     private void refresh() {
@@ -133,14 +121,6 @@ public class PostListRvFragment extends Fragment {
             postImageImv = itemView.findViewById(R.id.listrow_postImage_imv);
             authorNameTv = itemView.findViewById(R.id.listrow_authorName_tv);
             authorImageImv = itemView.findViewById(R.id.listrow_avatar_imv);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    listener.onItemClick(v,pos);
-                }
-            });
         }
 
         void bind(PostAndUser post){
