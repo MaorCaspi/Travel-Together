@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.finalProject.travelTogether.R;
+import com.finalProject.travelTogether.feed.relations.PostAndUser;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
 import com.squareup.picasso.Picasso;
@@ -86,7 +87,7 @@ public class PostListRvFragment extends Fragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View v,int position) {
-                String stId = viewModel.getData().getValue().get(position).getId();
+                String stId = viewModel.getData().getValue().get(position).post.getId();
                 Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(stId));
             }
         });
@@ -131,6 +132,7 @@ public class PostListRvFragment extends Fragment {
             descriptionTv = itemView.findViewById(R.id.listrow_description_tv);
             postImageImv = itemView.findViewById(R.id.listrow_postImage_imv);
             authorNameTv = itemView.findViewById(R.id.listrow_authorName_tv);
+            authorImageImv = itemView.findViewById(R.id.listrow_avatar_imv);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -141,15 +143,21 @@ public class PostListRvFragment extends Fragment {
             });
         }
 
-        void bind(Post post){
-            countryNameTv.setText(post.getCountryName());
-            descriptionTv.setText(post.getDescription());
-            authorNameTv.setText(post.getAuthorEmailAddress());//////////////
+        void bind(PostAndUser post){
+            countryNameTv.setText(post.post.getCountryName());
+            descriptionTv.setText(post.post.getDescription());
+            authorNameTv.setText(post.user.getFullName());
             postImageImv.setImageResource(R.drawable.avatar);
-            if (post.getPostImageUrl() != null) {
+            if (post.post.getPostImageUrl() != null) {
                 Picasso.get()
-                        .load(post.getPostImageUrl())
+                        .load(post.post.getPostImageUrl())
                         .into(postImageImv);
+            }
+            authorImageImv.setImageResource(R.drawable.avatar);
+            if (post.user.getAvatarUrl() != null) {
+                Picasso.get()
+                        .load(post.user.getAvatarUrl())
+                        .into(authorImageImv);
             }
         }
     }
@@ -174,7 +182,7 @@ public class PostListRvFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            Post post = viewModel.getData().getValue().get(position);
+            PostAndUser post = viewModel.getData().getValue().get(position);
             holder.bind(post);
         }
 

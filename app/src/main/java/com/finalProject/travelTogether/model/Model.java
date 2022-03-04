@@ -11,7 +11,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.finalProject.travelTogether.MyApplication;
 import com.finalProject.travelTogether.feed.relations.PostAndUser;
 import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -41,17 +40,17 @@ public class Model {
         return postListLoadingState;
     }
 
-    MutableLiveData<List<Post>> postsList = new MutableLiveData<List<Post>>();
-    MutableLiveData<List<Post>> userPostsList = new MutableLiveData<List<Post>>();
+    MutableLiveData<List<PostAndUser>> postsList = new MutableLiveData<List<PostAndUser>>();
+    MutableLiveData<List<PostAndUser>> userPostsList = new MutableLiveData<List<PostAndUser>>();
 
-    public LiveData<List<Post>> getAll() {
+    public LiveData<List<PostAndUser>> getAll() {
         if (postsList.getValue() == null) {
             refreshPostList();
         }
         return postsList;
     }
 
-    public LiveData<List<Post>> getUserPosts() {
+    public LiveData<List<PostAndUser>> getUserPosts() {
         if (userPostsList.getValue() == null) {
             refreshPostList();
         }
@@ -65,8 +64,8 @@ public class Model {
         Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("postListLoadingState", 0);
 
         executor.execute(() -> {
-            List<Post> stList = AppLocalDb.db.postDao().getAll();
-            postsList.postValue(stList);
+            List<PostAndUser> posList = AppLocalDb.db.postDao().getAll();
+            postsList.postValue(posList);
         });
 
         // firebase get all updates since lastLocalUpdateDate
@@ -93,14 +92,13 @@ public class Model {
                                 .commit();
 
                         //return all data to caller
-                        List<Post> stList = AppLocalDb.db.postDao().getAll();
-                        List<PostAndUser> usList2 = AppLocalDb.db.postDao().getMaor();///////////////////////////
-                        postsList.postValue(stList);
+                        List<PostAndUser> posList = AppLocalDb.db.postDao().getAll();
+                        postsList.postValue(posList);
                         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-                        List<Post> usList=new ArrayList<>();
-                        for(Post post : stList){
-                            if(post.getAuthorEmailAddress().equals(email)){
-                                usList.add(post);
+                        List<PostAndUser> usList=new ArrayList<>();
+                        for(PostAndUser postAndUser : posList){
+                            if(postAndUser.post.getAuthorEmailAddress().equals(email)){
+                                usList.add(postAndUser);
                             }
                         }
                         userPostsList.postValue(usList);

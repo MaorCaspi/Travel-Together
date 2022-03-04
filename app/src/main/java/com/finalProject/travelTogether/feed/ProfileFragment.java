@@ -151,7 +151,7 @@ public class ProfileFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ProfileFragment.MyViewHolder holder, int position) {
-            Post post = viewModel.getUserPosts().getValue().get(position);
+            Post post = viewModel.getUserPosts().getValue().get(position).post;
             holder.bind(post);
         }
 

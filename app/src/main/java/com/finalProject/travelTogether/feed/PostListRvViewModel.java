@@ -2,6 +2,8 @@ package com.finalProject.travelTogether.feed;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.finalProject.travelTogether.feed.relations.PostAndUser;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
 import com.finalProject.travelTogether.model.User;
@@ -9,8 +11,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.List;
 
 public class PostListRvViewModel extends ViewModel {
-    LiveData<List<Post>> data;
-    LiveData<List<Post>> userPosts;
+    LiveData<List<PostAndUser>> data;
+    LiveData<List<PostAndUser>> userPosts;
     LiveData<List<User>> usersData;
     LiveData<User> currentUser;
 
@@ -21,7 +23,7 @@ public class PostListRvViewModel extends ViewModel {
         userPosts = Model.instance.getUserPosts();
     }
 
-    public LiveData<List<Post>> getData() {
+    public LiveData<List<PostAndUser>> getData() {
         return data;
     }
 
@@ -29,7 +31,7 @@ public class PostListRvViewModel extends ViewModel {
         return usersData;
     }
 
-    public LiveData<List<Post>> getUserPosts() {
+    public LiveData<List<PostAndUser>> getUserPosts() {
         return userPosts;
     }
 

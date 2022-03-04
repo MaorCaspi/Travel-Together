@@ -13,13 +13,10 @@ import java.util.List;
 @Dao
 public interface PostDao {
 
-    @Query("select * from Post")
-    List<Post> getAll();
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Post... posts);
 
     @Transaction
     @Query("select * from Post")
-    List<PostAndUser> getMaor();
+    List<PostAndUser> getAll();
 }
