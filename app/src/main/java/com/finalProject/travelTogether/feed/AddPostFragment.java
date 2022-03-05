@@ -3,13 +3,14 @@ package com.finalProject.travelTogether.feed;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,23 +25,33 @@ import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
 import com.google.firebase.auth.FirebaseAuth;
-
 import java.io.IOException;
 import java.util.UUID;
 
 public class AddPostFragment extends Fragment {
     private static final int REQUEST_CAMERA = 1;
     private static final int PICK_IMAGE = 2;
+    AddPostViewModel viewModel;
     Spinner countryNameSP;
     EditText descriptionEt;
     Button saveBtn;
     Button cancelBtn;
     ProgressBar progressBar;
-    Bitmap imageBitmap;
     ImageView postImageImv;
     ImageButton camBtn;
     ImageButton galleryBtn;
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(AddPostViewModel.class);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        postImageImv.setImageBitmap(viewModel.getImageBitmap());
+    }
 
     @Nullable
     @Override
@@ -88,10 +99,8 @@ public class AddPostFragment extends Fragment {
     }
 
     private void openGallery() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(Intent.createChooser(pickPhoto, "Select Picture"), PICK_IMAGE);
     }
 
     private void openCam() {
@@ -107,17 +116,17 @@ public class AddPostFragment extends Fragment {
         }
         if (requestCode == REQUEST_CAMERA){
             Bundle extras = data.getExtras();
-            imageBitmap = (Bitmap) extras.get("data");
+            viewModel.setImageBitmap((Bitmap) extras.get("data"));
         }
         else if (requestCode == PICK_IMAGE){
             try {
-                imageBitmap=MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+                viewModel.setImageBitmap(MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData()));
             } catch (IOException e) {
                 e.printStackTrace();
                 return;
             }
         }
-        postImageImv.setImageBitmap(imageBitmap);
+        postImageImv.setImageBitmap(viewModel.getImageBitmap());
     }
 
     private void save() {
@@ -131,12 +140,12 @@ public class AddPostFragment extends Fragment {
         String authorEmailAddress = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         String id = UUID.randomUUID().toString();
         Post post = new Post(countryName,id,description,authorEmailAddress);
-        if (imageBitmap == null){
+        if (viewModel.getImageBitmap() == null){
             Model.instance.addPost(post,()->{
                 Navigation.findNavController(getView()).navigateUp();
             });
         }else{
-            Model.instance.saveImage(imageBitmap, id + ".jpg", url -> {
+            Model.instance.saveImage(viewModel.getImageBitmap(), id + ".jpg", url -> {
                 post.setPostImageUrl(url);
                 Model.instance.addPost(post,()->{
                     Navigation.findNavController(getView()).navigateUp();
