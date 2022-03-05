@@ -23,7 +23,6 @@ import android.widget.TextView;
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.feed.relations.PostAndUser;
 import com.finalProject.travelTogether.model.Model;
-import com.finalProject.travelTogether.model.Post;
 import com.squareup.picasso.Picasso;
 
 public class PostListRvFragment extends Fragment {
@@ -114,7 +113,7 @@ public class PostListRvFragment extends Fragment {
         TextView authorNameTv;
         ImageView authorImageImv;
 
-        public MyViewHolder(@NonNull View itemView, OnItemClickListener listener) {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             countryNameTv = itemView.findViewById(R.id.listrow_countryName_tv);
             descriptionTv = itemView.findViewById(R.id.listrow_description_tv);
@@ -127,11 +126,14 @@ public class PostListRvFragment extends Fragment {
             countryNameTv.setText(post.post.getCountryName());
             descriptionTv.setText(post.post.getDescription());
             authorNameTv.setText(post.user.getFullName());
-            postImageImv.setImageResource(R.drawable.avatar);
             if (post.post.getPostImageUrl() != null) {
                 Picasso.get()
                         .load(post.post.getPostImageUrl())
                         .into(postImageImv);
+                postImageImv.setVisibility(View.VISIBLE);
+            }
+            else{
+                postImageImv.setVisibility(View.GONE);
             }
             authorImageImv.setImageResource(R.drawable.avatar);
             if (post.user.getAvatarUrl() != null) {
@@ -142,21 +144,13 @@ public class PostListRvFragment extends Fragment {
         }
     }
 
-    interface OnItemClickListener{
-        void onItemClick(View v,int position);
-    }
     class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
-
-        OnItemClickListener listener;
-        public void setOnItemClickListener(OnItemClickListener listener){
-            this.listener = listener;
-        }
 
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.post_list_row,parent,false);
-            MyViewHolder holder = new MyViewHolder(view,listener);
+            MyViewHolder holder = new MyViewHolder(view);
             return holder;
         }
 

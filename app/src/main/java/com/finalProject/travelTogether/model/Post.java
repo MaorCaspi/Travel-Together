@@ -92,11 +92,10 @@ public class Post {
         String name = (String) json.get("countryName");
         String description = (String) json.get("description");
         Timestamp ts = (Timestamp)json.get("updateDate");
-        Long updateDate = ts.getSeconds();
         String postImageUrl = (String)json.get("postImageUrl");
         String authorEmailAddress = (String)json.get("authorEmailAddress");
-
         Post post = new Post(name,id,description,authorEmailAddress);
+        Long updateDate = ts.getSeconds();
         post.setUpdateDate(updateDate);
         post.setPostImageUrl(postImageUrl);
         return post;
