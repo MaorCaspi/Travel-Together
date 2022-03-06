@@ -7,4 +7,8 @@
         android:icon="@android:drawable/ic_input_add"
         android:title="Add"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/privateProfile"
+        android:title="Private Profile"
+        app:showAsAction="never" />
 </menu>

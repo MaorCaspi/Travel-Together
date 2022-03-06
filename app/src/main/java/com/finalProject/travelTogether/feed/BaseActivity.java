@@ -43,6 +43,9 @@ public class BaseActivity extends AppCompatActivity {
                 case R.id.logout:
                     logout();
                     return true;
+                case R.id.privateProfile:
+                    navCtl.navigate(PostListRvFragmentDirections.actionPostListRvFragmentToProfileFragment());
+                    return true;
                 default:
                     NavigationUI.onNavDestinationSelected(item,navCtl);
             }

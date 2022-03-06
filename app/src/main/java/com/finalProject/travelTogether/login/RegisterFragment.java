@@ -1,6 +1,7 @@
 package com.finalProject.travelTogether.login;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.feed.BaseActivity;
 import com.finalProject.travelTogether.model.Model;
@@ -26,13 +28,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
 import java.io.IOException;
 
 public class RegisterFragment extends Fragment {
 
     private static final int REQUEST_CAMERA = 1;
     private static final int PICK_IMAGE = 2;
+    RegisterViewModel viewModel;
     private FirebaseAuth mAuth;
     EditText fullNameEt;
     EditText emailEt;
@@ -42,7 +44,20 @@ public class RegisterFragment extends Fragment {
     ImageButton camBtn;
     ImageButton galleryBtn;
     ProgressBar progressBar;
-    Bitmap imageBitmap;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(viewModel.getImageBitmap()!=null) {
+            avatarImv.setImageBitmap(viewModel.getImageBitmap());
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,11 +130,11 @@ public class RegisterFragment extends Fragment {
         String email=emailEt.getText().toString();
         String fullName=fullNameEt.getText().toString();
         User user = new User(email,fullName);
-        if (imageBitmap == null){
+        if (viewModel.getImageBitmap() == null){
             Model.instance.addUser(user,()->{ });
         }
         else{
-            Model.instance.saveImage(imageBitmap, email + ".jpg", url -> {
+            Model.instance.saveImage(viewModel.getImageBitmap(), email + ".jpg", url -> {
                 user.setAvatarUrl(url);
                 Model.instance.addUser(user,()->{
                 });
@@ -128,10 +143,8 @@ public class RegisterFragment extends Fragment {
     }
 
     private void openGallery() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(Intent.createChooser(pickPhoto, "Select Picture"), PICK_IMAGE);
     }
 
     private void openCam() {
@@ -147,17 +160,17 @@ public class RegisterFragment extends Fragment {
         }
         if (requestCode == REQUEST_CAMERA){
             Bundle extras = data.getExtras();
-            imageBitmap = (Bitmap) extras.get("data");
+            viewModel.setImageBitmap((Bitmap) extras.get("data"));
         }
         else if (requestCode == PICK_IMAGE){
             try {
-                imageBitmap=MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+                viewModel.setImageBitmap(MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData()));
             } catch (IOException e) {
                 e.printStackTrace();
                 return;
             }
         }
-        avatarImv.setImageBitmap(imageBitmap);
+        avatarImv.setImageBitmap(viewModel.getImageBitmap());
     }
 
     private void toFeedActivity() {

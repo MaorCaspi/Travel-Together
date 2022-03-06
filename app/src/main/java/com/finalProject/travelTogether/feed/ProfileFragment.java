@@ -54,7 +54,6 @@ public class ProfileFragment extends Fragment {
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,14 +131,6 @@ public class ProfileFragment extends Fragment {
             descriptionTv = itemView.findViewById(R.id.listrow_description_tv);
             postImageImv = itemView.findViewById(R.id.listrow_postImage_imv);
             authorNameTv = itemView.findViewById(R.id.listrow_authorName_tv);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    listener.onItemClick(v,pos);
-                }
-            });
         }
 
         void bind(Post post){
@@ -175,7 +166,7 @@ public class ProfileFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ProfileFragment.MyViewHolder holder, int position) {
-            Post post = viewModel.getUserPosts().getValue().get(position);
+            Post post = viewModel.getUserPosts().getValue().get(position).post;
             holder.bind(post);
         }
 

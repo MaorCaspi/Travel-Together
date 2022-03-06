@@ -3,7 +3,6 @@ package com.finalProject.travelTogether.feed;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,12 +20,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.finalProject.travelTogether.R;
+import com.finalProject.travelTogether.feed.relations.PostAndUser;
 import com.finalProject.travelTogether.model.Model;
-import com.finalProject.travelTogether.model.Post;
-import com.finalProject.travelTogether.model.User;
-import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 public class PostListRvFragment extends Fragment {
@@ -35,7 +31,6 @@ public class PostListRvFragment extends Fragment {
     SwipeRefreshLayout swipeRefresh;
     Button privateUserPageBtn;
     ImageButton avatarBtn;
-
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -88,13 +83,6 @@ public class PostListRvFragment extends Fragment {
         adapter = new MyAdapter();
         list.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View v,int position) {
-                String stId = viewModel.getData().getValue().get(position).getId();
-                Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(stId));
-            }
-        });
 
         setHasOptionsMenu(true);
         viewModel.getData().observe(getViewLifecycleOwner(), list1 -> refresh());
@@ -110,12 +98,7 @@ public class PostListRvFragment extends Fragment {
     }
 
     private void toUserProfile(View v) {
-        // TO DO !!!!!!
-        //Toast.makeText(getContext(), "will open the user's page", Toast.LENGTH_SHORT).show();
-
-
         Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToProfileFragment());
-
     }
 
     private void refresh() {
@@ -130,56 +113,50 @@ public class PostListRvFragment extends Fragment {
         TextView authorNameTv;
         ImageView authorImageImv;
 
-        public MyViewHolder(@NonNull View itemView, OnItemClickListener listener) {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             countryNameTv = itemView.findViewById(R.id.listrow_countryName_tv);
             descriptionTv = itemView.findViewById(R.id.listrow_description_tv);
             postImageImv = itemView.findViewById(R.id.listrow_postImage_imv);
             authorNameTv = itemView.findViewById(R.id.listrow_authorName_tv);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    listener.onItemClick(v,pos);
-                }
-            });
+            authorImageImv = itemView.findViewById(R.id.listrow_avatar_imv);
         }
 
-        void bind(Post post){
-            countryNameTv.setText(post.getCountryName());
-            descriptionTv.setText(post.getDescription());
-            authorNameTv.setText(post.getAuthorEmailAddress());//////////////
-            postImageImv.setImageResource(R.drawable.avatar);
-            if (post.getPostImageUrl() != null) {
+        void bind(PostAndUser post){
+            countryNameTv.setText(post.post.getCountryName());
+            descriptionTv.setText(post.post.getDescription());
+            authorNameTv.setText(post.user.getFullName());
+            if (post.post.getPostImageUrl() != null) {
                 Picasso.get()
-                        .load(post.getPostImageUrl())
+                        .load(post.post.getPostImageUrl())
                         .into(postImageImv);
+                postImageImv.setVisibility(View.VISIBLE);
+            }
+            else{
+                postImageImv.setVisibility(View.GONE);
+            }
+            authorImageImv.setImageResource(R.drawable.avatar);
+            if (post.user.getAvatarUrl() != null) {
+                Picasso.get()
+                        .load(post.user.getAvatarUrl())
+                        .into(authorImageImv);
             }
         }
     }
 
-    interface OnItemClickListener{
-        void onItemClick(View v,int position);
-    }
     class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
-
-        OnItemClickListener listener;
-        public void setOnItemClickListener(OnItemClickListener listener){
-            this.listener = listener;
-        }
 
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.post_list_row,parent,false);
-            MyViewHolder holder = new MyViewHolder(view,listener);
+            MyViewHolder holder = new MyViewHolder(view);
             return holder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            Post post = viewModel.getData().getValue().get(position);
+            PostAndUser post = viewModel.getData().getValue().get(position);
             holder.bind(post);
         }
 

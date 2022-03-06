@@ -11,9 +11,6 @@
         android:label="Posts"
         tools:layout="@layout/fragment_posts_list">
         <action
-            android:id="@+id/action_postListRvFragment_to_postDetailsFragment"
-            app:destination="@id/postDetailsFragment" />
-        <action
             android:id="@+id/action_postListRvFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
@@ -28,15 +25,6 @@
 <!--        <action-->
 <!--            android:id="@+id/action_postListRvFragment_to_profileFragment"-->
 <!--            app:destination="@id/profileFragment" />-->
-    </fragment>
-    <fragment
-        android:id="@+id/postDetailsFragment"
-        android:name="com.finalProject.travelTogether.feed.PostDetailsFragment"
-        android:label="Details"
-        tools:layout="@layout/fragment_post_details">
-        <argument
-            android:name="postId"
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
