@@ -12,13 +12,17 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.finalProject.travelTogether.R;
@@ -32,10 +36,11 @@ import com.squareup.picasso.Picasso;
 public class ProfileFragment extends Fragment {
     PostListRvViewModel viewModel;
     ImageView img;
-    TextView name, email, description;
+    TextView name, email;
+    Button editBtn,deleteBtn;
     MyAdapter adapter;
-    //String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-
+    EditText nameEdit;
+    LinearLayout imgEditLayout;
 
 
     @Override
@@ -62,7 +67,12 @@ public class ProfileFragment extends Fragment {
         img = view.findViewById(R.id.profile_img);
         name = view.findViewById(R.id.profile_name);
         email = view.findViewById(R.id.profile_email);
-        description = view.findViewById(R.id.profile_description);
+        editBtn = view.findViewById(R.id.profile_edit_btn);
+        deleteBtn = view.findViewById(R.id.profile_delete_btn);
+        nameEdit = view.findViewById(R.id.profile_edit_name);
+        imgEditLayout = view.findViewById(R.id.profile_edit_img_layout);
+
+
         RecyclerView list = view.findViewById(R.id.profile_rv);
 
         list.setHasFixedSize(true);
@@ -74,8 +84,21 @@ public class ProfileFragment extends Fragment {
         viewModel.getCurrentUser().observe(getViewLifecycleOwner(), user -> {
             name.setText(user.getFullName());
             email.setText(user.getEmailAddress());
+            if(user.getAvatarUrl() != null){
+                Picasso.get().load(user.getAvatarUrl()).into(img);
+            }
+         });
 
-                });
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                name.setVisibility(View.GONE);
+                nameEdit.setText(name.getText());
+                nameEdit.setVisibility(View.VISIBLE);
+                imgEditLayout.setVisibility(View.VISIBLE);
+
+            }
+        });
 
 //        adapter.setOnItemClickListener(new ProfileFragment.OnItemClickListener() {
 //            @Override
