@@ -34,7 +34,7 @@ public class PostListRvViewModel extends ViewModel {
     }
 
     public LiveData<User> getCurrentUser() {
-        //  currentUser = Model.instance.getUserByEmailAddress(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        currentUser = Model.instance.getUserByEmailAddress(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         return currentUser;
     }
 }

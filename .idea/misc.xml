@@ -25,8 +25,10 @@
         <entry key="..\:/Users/Administrator/Documents/android studio/Travel Together/Travel Together/app/src/main/res/menu/student_list_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Administrator/Documents/android studio/Travel Together/Travel Together/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2234375" />
         <entry key="..\:/travel-together/app/src/main/res/layout/activity_base.xml" value="0.13020833333333334" />
+        <entry key="..\:/travel-together/app/src/main/res/layout/fragment_post_details.xml" value="0.13020833333333334" />
         <entry key="..\:/travel-together/app/src/main/res/layout/fragment_posts_list.xml" value="0.15625" />
         <entry key="..\:/travel-together/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
+        <entry key="..\:/travel-together/app/src/main/res/layout/fragment_register.xml" value="0.14356884057971014" />
         <entry key="..\:/travel-together/app/src/main/res/layout/post_list_row.xml" value="0.15625" />
         <entry key="app/src/main/res/layout/activity_base.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_intro.xml" value="0.21510416666666668" />
