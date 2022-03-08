@@ -2,8 +2,12 @@ package com.finalProject.travelTogether.feed;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.navigation.Navigation;
+
 import com.finalProject.travelTogether.feed.relations.PostAndUser;
+import com.finalProject.travelTogether.model.AppLocalDb;
 import com.finalProject.travelTogether.model.Model;
+import com.finalProject.travelTogether.model.Post;
 import com.finalProject.travelTogether.model.User;
 import java.util.List;
 
@@ -35,5 +39,9 @@ public class PostListRvViewModel extends ViewModel {
     public LiveData<User> getCurrentUser() {
         currentUser = Model.instance.getCurrentUser();
         return currentUser;
+    }
+
+    public void editPost(Post post) {
+        Model.instance.editPost(post);
     }
 }

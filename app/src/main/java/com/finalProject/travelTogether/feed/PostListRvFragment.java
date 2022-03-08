@@ -128,6 +128,10 @@ public class PostListRvFragment extends Fragment {
         }
 
         void bind(PostAndUser post){
+            if(post==null || post.user==null || post.post==null) {
+                Model.instance.refreshPostList();
+                return;
+            }
             countryNameTv.setText(post.post.getCountryName());
             descriptionTv.setText(post.post.getDescription());
             authorNameTv.setText(post.user.getFullName());
@@ -158,11 +162,9 @@ public class PostListRvFragment extends Fragment {
                 deleteBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int position=getPosition();
-                        adapter.notifyItemRemoved(position);//Remove post from rv
-                        Model.instance.getAll().getValue().remove(position);//Remove post from list
                         post.post.setDeleted(true);
-                        Model.instance.editPost(post.post);
+                        post.post.setUpdateDate(new Long(0));
+                        viewModel.editPost(post.post);
                     }
                 });
             }

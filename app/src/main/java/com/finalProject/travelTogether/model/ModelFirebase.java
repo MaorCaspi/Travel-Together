@@ -46,7 +46,7 @@ public class ModelFirebase {
                     if (task.isSuccessful()){
                         for (QueryDocumentSnapshot doc : task.getResult()){
                             Post post = Post.create(doc.getData());
-                            if (post != null){
+                            if (post != null && post.isDeleted()==false){
                                 list.add(post);
                             }
                         }
@@ -62,10 +62,6 @@ public class ModelFirebase {
                 .set(json)
                 .addOnSuccessListener(unused -> listener.onComplete())
                 .addOnFailureListener(e -> listener.onComplete());
-    }
-
-    public void editPost(Post post) {
-        //TO DO!!!
     }
 
     public void getPostById(String postId, Model.GetPostById listener) {

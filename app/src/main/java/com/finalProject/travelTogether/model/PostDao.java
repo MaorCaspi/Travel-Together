@@ -14,7 +14,10 @@ public interface PostDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Post... posts);
 
+    @Query("DELETE FROM Post WHERE id = :postId")
+    void deleteByPostId(String postId);
+
     @Transaction
-    @Query("select * from Post where isDeleted='0' order by updateDate desc")
+    @Query("select * from Post order by updateDate desc")
     List<PostAndUser> getAll();
 }
