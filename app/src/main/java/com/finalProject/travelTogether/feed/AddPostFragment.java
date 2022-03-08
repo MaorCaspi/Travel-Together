@@ -57,19 +57,19 @@ public class AddPostFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_post,container, false);
-        countryNameSP = (Spinner) view.findViewById(R.id.main_countryName_sp);
+        countryNameSP = (Spinner) view.findViewById(R.id.addPost_countryName_sp);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(), R.array.countries_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         countryNameSP.setAdapter(adapter);
-        descriptionEt = view.findViewById(R.id.main_description_et);
-        saveBtn = view.findViewById(R.id.main_save_btn);
-        cancelBtn = view.findViewById(R.id.main_cancel_btn);
-        progressBar = view.findViewById(R.id.main_progressbar);
+        descriptionEt = view.findViewById(R.id.addPost_description_et);
+        saveBtn = view.findViewById(R.id.addPost_save_btn);
+        cancelBtn = view.findViewById(R.id.addPost_cancel_btn);
+        progressBar = view.findViewById(R.id.addPost_progressbar);
         progressBar.setVisibility(View.GONE);
-        postImageImv = view.findViewById(R.id.main_postImage_imv);
+        postImageImv = view.findViewById(R.id.addPost_postImage_imv);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,8 +85,8 @@ public class AddPostFragment extends Fragment {
             }
         });
 
-        camBtn = view.findViewById(R.id.main_cam_btn);
-        galleryBtn = view.findViewById(R.id.main_gallery_btn);
+        camBtn = view.findViewById(R.id.addPost_cam_btn);
+        galleryBtn = view.findViewById(R.id.addPost_gallery_btn);
 
         camBtn.setOnClickListener(v -> {
             openCam();

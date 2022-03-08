@@ -35,7 +35,7 @@ public class LoginFragment extends Fragment {
 
         emailEt = view.findViewById(R.id.login_email_et);
         passwordEt = view.findViewById(R.id.login_password_et);
-        progressBar = view.findViewById(R.id.main_progressbar);
+        progressBar = view.findViewById(R.id.addPost_progressbar);
         progressBar.setVisibility(View.GONE);
 
         // Initialize Firebase Auth

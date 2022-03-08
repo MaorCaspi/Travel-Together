@@ -77,7 +77,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <ProgressBar
-        android:id="@+id/main_progressbar"
+        android:id="@+id/addPost_progressbar"
         style="?android:attr/progressBarStyle"
         android:layout_width="157dp"
         android:layout_height="156dp"
