@@ -19,6 +19,7 @@ public class Post {
     Long updateDate = new Long(0);
     String postImageUrl;
     String authorEmailAddress;
+    boolean isDeleted=false;
 
     public void setUpdateDate(Long updateDate) {
         this.updateDate = updateDate;
@@ -76,6 +77,14 @@ public class Post {
         return postImageUrl;
     }
 
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
     public Map<String, Object> toJson() {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put("id",id);
@@ -84,6 +93,7 @@ public class Post {
         json.put("updateDate", FieldValue.serverTimestamp());
         json.put("postImageUrl",postImageUrl);
         json.put("authorEmailAddress",authorEmailAddress);
+        json.put("isDeleted",isDeleted);
         return json;
     }
 
@@ -94,10 +104,12 @@ public class Post {
         Timestamp ts = (Timestamp)json.get("updateDate");
         String postImageUrl = (String)json.get("postImageUrl");
         String authorEmailAddress = (String)json.get("authorEmailAddress");
+        boolean isDeleted = (boolean)json.get("isDeleted");
         Post post = new Post(name,id,description,authorEmailAddress);
         Long updateDate = ts.getSeconds();
         post.setUpdateDate(updateDate);
         post.setPostImageUrl(postImageUrl);
+        post.setDeleted(isDeleted);
         return post;
     }
 }

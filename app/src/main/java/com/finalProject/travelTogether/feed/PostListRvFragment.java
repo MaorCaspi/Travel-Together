@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.feed.relations.PostAndUser;
 import com.finalProject.travelTogether.model.Model;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 public class PostListRvFragment extends Fragment {
@@ -112,6 +113,8 @@ public class PostListRvFragment extends Fragment {
         TextView descriptionTv;
         TextView authorNameTv;
         ImageView authorImageImv;
+        Button editBtn;
+        Button deleteBtn;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -120,6 +123,8 @@ public class PostListRvFragment extends Fragment {
             postImageImv = itemView.findViewById(R.id.listrow_postImage_imv);
             authorNameTv = itemView.findViewById(R.id.listrow_authorName_tv);
             authorImageImv = itemView.findViewById(R.id.listrow_avatar_imv);
+            editBtn = itemView.findViewById(R.id.listrow_edit_btn);
+            deleteBtn = itemView.findViewById(R.id.listrow_delete_btn);
         }
 
         void bind(PostAndUser post){
@@ -132,7 +137,7 @@ public class PostListRvFragment extends Fragment {
                         .into(postImageImv);
                 postImageImv.setVisibility(View.VISIBLE);
             }
-            else{
+            else{//if the post does not have a photo
                 postImageImv.setVisibility(View.GONE);
             }
             authorImageImv.setImageResource(R.drawable.avatar);
@@ -140,6 +145,30 @@ public class PostListRvFragment extends Fragment {
                 Picasso.get()
                         .load(post.user.getAvatarUrl())
                         .into(authorImageImv);
+            }
+            if(post.post.getAuthorEmailAddress().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())){//if the post belongs to current user, then show the buttons
+                editBtn.setVisibility(View.VISIBLE);
+                deleteBtn.setVisibility(View.VISIBLE);
+                editBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+                deleteBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position=getPosition();
+                        adapter.notifyItemRemoved(position);//Remove post from rv
+                        Model.instance.getAll().getValue().remove(position);//Remove post from list
+                        post.post.setDeleted(true);
+                        Model.instance.editPost(post.post);
+                    }
+                });
+            }
+            else{
+                editBtn.setVisibility(View.GONE);
+                deleteBtn.setVisibility(View.GONE);
             }
         }
     }

@@ -118,6 +118,10 @@ public class Model {
         });
     }
 
+    public void editPost(Post post){
+        modelFirebase.editPost(post);
+    }
+
     public interface GetPostById {
         void onComplete(Post post);
     }

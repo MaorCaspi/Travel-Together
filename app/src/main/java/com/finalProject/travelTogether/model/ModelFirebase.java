@@ -64,6 +64,10 @@ public class ModelFirebase {
                 .addOnFailureListener(e -> listener.onComplete());
     }
 
+    public void editPost(Post post) {
+        //TO DO!!!
+    }
+
     public void getPostById(String postId, Model.GetPostById listener) {
         db.collection(Post.COLLECTION_NAME)
                 .document(postId)

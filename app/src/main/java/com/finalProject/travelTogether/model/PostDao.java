@@ -15,6 +15,6 @@ public interface PostDao {
     void insertAll(Post... posts);
 
     @Transaction
-    @Query("select * from Post order by updateDate desc")
+    @Query("select * from Post where isDeleted='0' order by updateDate desc")
     List<PostAndUser> getAll();
 }
