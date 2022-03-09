@@ -46,7 +46,7 @@ public class ModelFirebase {
                     if (task.isSuccessful()){
                         for (QueryDocumentSnapshot doc : task.getResult()){
                             Post post = Post.create(doc.getData());
-                            if (post != null && post.isDeleted()==false){
+                            if (post != null){
                                 list.add(post);
                             }
                         }

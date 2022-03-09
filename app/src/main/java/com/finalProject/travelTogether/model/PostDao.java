@@ -18,6 +18,6 @@ public interface PostDao {
     void deleteByPostId(String postId);
 
     @Transaction
-    @Query("select * from Post order by updateDate desc")
+    @Query("select * from Post where isDeleted=0 order by updateDate desc")
     List<PostAndUser> getAll();
 }
