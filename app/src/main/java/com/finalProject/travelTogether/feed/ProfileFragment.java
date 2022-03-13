@@ -1,6 +1,9 @@
 package com.finalProject.travelTogether.feed;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -27,11 +33,15 @@ import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.User;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+
 public class ProfileFragment extends Fragment {
+    private static final int REQUEST_CAMERA = 1, PICK_IMAGE = 2;
     ProfileViewModel viewModel;
-    ImageView img;
+    ImageView avatarImv;
     TextView name, email;
     Button editBtn,saveBtn;
+    ImageButton camBtn, galleryBtn;
     MyAdapter adapter;
     EditText nameEdit;
     LinearLayout imgEditLayout;
@@ -58,7 +68,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        img = view.findViewById(R.id.profile_img);
+        avatarImv = view.findViewById(R.id.profile_img);
         name = view.findViewById(R.id.profile_name);
         email = view.findViewById(R.id.profile_email);
         editBtn = view.findViewById(R.id.profile_edit_btn);
@@ -78,7 +88,7 @@ public class ProfileFragment extends Fragment {
             name.setText(user.getFullName());
             email.setText(user.getEmailAddress());
             if(user.getAvatarUrl() != null){
-                Picasso.get().load(user.getAvatarUrl()).into(img);
+                Picasso.get().load(user.getAvatarUrl()).into(avatarImv);
             }
             this.currentUser = user;
          });
@@ -124,7 +134,49 @@ public class ProfileFragment extends Fragment {
         progressBar = view.findViewById(R.id.profile_progressbar);
         progressBar.setVisibility(View.GONE);
 
+        camBtn = view.findViewById(R.id.profile_cam_btn);
+        galleryBtn = view.findViewById(R.id.profile_gallery_btn);
+
+        camBtn.setOnClickListener(v -> {
+            openCam();
+        });
+
+        galleryBtn.setOnClickListener(v -> {
+            openGallery();
+        });
+
         return view;
+    }
+
+    private void openGallery() {
+        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(Intent.createChooser(pickPhoto, "Select Picture"), PICK_IMAGE);
+    }
+
+    private void openCam() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent,REQUEST_CAMERA);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK || data==null) {
+            return;
+        }
+        if (requestCode == REQUEST_CAMERA){
+            Bundle extras = data.getExtras();
+            viewModel.setImageBitmap((Bitmap) extras.get("data"));
+        }
+        else if (requestCode == PICK_IMAGE){
+            try {
+                viewModel.setImageBitmap(MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData()));
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+        }
+        avatarImv.setImageBitmap(viewModel.getImageBitmap());
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
@@ -172,6 +224,14 @@ public class ProfileFragment extends Fragment {
             }
             editBtn.setVisibility(View.GONE);
             deleteBtn.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(viewModel.getImageBitmap()!=null) {
+            avatarImv.setImageBitmap(viewModel.getImageBitmap());
         }
     }
 

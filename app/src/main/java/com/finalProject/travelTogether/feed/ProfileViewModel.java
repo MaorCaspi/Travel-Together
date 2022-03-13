@@ -1,5 +1,7 @@
 package com.finalProject.travelTogether.feed;
 
+import android.graphics.Bitmap;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -9,8 +11,9 @@ import com.finalProject.travelTogether.model.User;
 import java.util.List;
 
 public class ProfileViewModel extends ViewModel {
-    LiveData<List<PostAndUser>> userPosts;
-    MutableLiveData<User> currentUser;
+    private LiveData<List<PostAndUser>> userPosts;
+    private MutableLiveData<User> currentUser;
+    private Bitmap imageBitmap;
 
     public ProfileViewModel(){
         currentUser = Model.instance.getCurrentUser();
@@ -33,5 +36,13 @@ public class ProfileViewModel extends ViewModel {
     public LiveData<User> getCurrentUser() {
         currentUser = Model.instance.getCurrentUser();
         return currentUser;
+    }
+
+    public Bitmap getImageBitmap() {
+        return imageBitmap;
+    }
+
+    public void setImageBitmap(Bitmap imageBitmap) {
+        this.imageBitmap = imageBitmap;
     }
 }
