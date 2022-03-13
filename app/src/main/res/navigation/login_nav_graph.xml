@@ -23,5 +23,6 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.finalProject.travelTogether.login.RegisterFragment"
-        android:label="RegisterFragment" />
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_register" />
 </navigation>

@@ -2,10 +2,7 @@ package com.finalProject.travelTogether.feed;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.navigation.Navigation;
-
 import com.finalProject.travelTogether.feed.relations.PostAndUser;
-import com.finalProject.travelTogether.model.AppLocalDb;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.Post;
 import com.finalProject.travelTogether.model.User;

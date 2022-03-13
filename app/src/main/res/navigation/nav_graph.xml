@@ -13,18 +13,15 @@
         <action
             android:id="@+id/action_postListRvFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_postListRvFragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.finalProject.travelTogether.feed.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile">
-<!--        <argument-->
-<!--            android:name="userId"-->
-<!--            app:argType="LiveData<User>" />-->
-<!--        <action-->
-<!--            android:id="@+id/action_postListRvFragment_to_profileFragment"-->
-<!--            app:destination="@id/profileFragment" />-->
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
@@ -38,4 +35,13 @@
         android:label="Add New Post"
         tools:layout="@layout/fragment_add_post" />
     <action android:id="@+id/action_global_addPostFragment" app:destination="@id/addPostFragment" />
+    <fragment
+        android:id="@+id/editPostFragment"
+        android:name="com.finalProject.travelTogether.feed.EditPostFragment"
+        android:label="Edit Post"
+        tools:layout="@layout/fragment_add_post" >
+        <argument
+            android:name="postPosition"
+            app:argType="integer" />
+    </fragment>
 </navigation>

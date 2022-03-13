@@ -156,14 +156,13 @@ public class PostListRvFragment extends Fragment {
                 editBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToEditPostFragment(getPosition()));
                     }
                 });
                 deleteBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         post.post.setDeleted(true);
-                        post.post.setUpdateDate(new Long(0));
                         viewModel.editPost(post.post);
                     }
                 });

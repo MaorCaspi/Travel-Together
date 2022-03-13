@@ -1,7 +1,6 @@
 package com.finalProject.travelTogether.model;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,7 +8,6 @@ import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.finalProject.travelTogether.MyApplication;
-import com.finalProject.travelTogether.feed.BaseActivity;
 import com.finalProject.travelTogether.feed.relations.PostAndUser;
 import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
@@ -130,6 +128,7 @@ public class Model {
     }
 
     public void editPost(Post post) {
+        post.setUpdateDate(new Long(0));
         executor.execute(() -> {
             AppLocalDb.db.postDao().deleteByPostId(post.id);//Delete post from rom
         });
