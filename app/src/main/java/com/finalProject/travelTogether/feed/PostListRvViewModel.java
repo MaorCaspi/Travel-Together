@@ -1,6 +1,7 @@
 package com.finalProject.travelTogether.feed;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.finalProject.travelTogether.feed.relations.PostAndUser;
 import com.finalProject.travelTogether.model.Model;
@@ -12,7 +13,7 @@ public class PostListRvViewModel extends ViewModel {
     LiveData<List<PostAndUser>> data;
     LiveData<List<PostAndUser>> userPosts;
     LiveData<List<User>> usersData;
-    LiveData<User> currentUser;
+    MutableLiveData<User> currentUser;
 
     public PostListRvViewModel(){
         data = Model.instance.getAll();
@@ -31,6 +32,16 @@ public class PostListRvViewModel extends ViewModel {
 
     public LiveData<List<PostAndUser>> getUserPosts() {
         return userPosts;
+    }
+
+
+    public void updateUser(User user) {
+        Model.instance.addUser(user, new Model.AddUserListener() {
+            @Override
+            public void onComplete() {
+                currentUser.postValue(user);
+            }
+        });
     }
 
     public LiveData<User> getCurrentUser() {

@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.finalProject.travelTogether.R;
 import com.finalProject.travelTogether.model.Model;
@@ -37,11 +38,11 @@ public class ProfileFragment extends Fragment {
     PostListRvViewModel viewModel;
     ImageView img;
     TextView name, email;
-    Button editBtn,deleteBtn;
+    Button editBtn,saveBtn;
     MyAdapter adapter;
     EditText nameEdit;
     LinearLayout imgEditLayout;
-
+    User currentUser;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -60,6 +61,7 @@ public class ProfileFragment extends Fragment {
 
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -68,7 +70,7 @@ public class ProfileFragment extends Fragment {
         name = view.findViewById(R.id.profile_name);
         email = view.findViewById(R.id.profile_email);
         editBtn = view.findViewById(R.id.profile_edit_btn);
-        deleteBtn = view.findViewById(R.id.profile_delete_btn);
+        saveBtn = view.findViewById(R.id.profile_save_btn);
         nameEdit = view.findViewById(R.id.profile_edit_name);
         imgEditLayout = view.findViewById(R.id.profile_edit_img_layout);
 
@@ -87,6 +89,7 @@ public class ProfileFragment extends Fragment {
             if(user.getAvatarUrl() != null){
                 Picasso.get().load(user.getAvatarUrl()).into(img);
             }
+            this.currentUser = user;
          });
 
         editBtn.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +99,23 @@ public class ProfileFragment extends Fragment {
                 nameEdit.setText(name.getText());
                 nameEdit.setVisibility(View.VISIBLE);
                 imgEditLayout.setVisibility(View.VISIBLE);
+                saveBtn.setVisibility(View.VISIBLE);
+                editBtn.setVisibility(View.GONE);
+            }
+        });
+        saveBtn.setOnClickListener((v) -> {
+            String newUserName = nameEdit.getText().toString();
+            if(newUserName.isEmpty())
+            {
+                Toast.makeText(getContext(),"Please fill the name field",Toast.LENGTH_SHORT).show();
+            }else {
+                currentUser.setFullName(newUserName);
+                viewModel.updateUser(currentUser);
+                saveBtn.setVisibility(View.GONE);
+                editBtn.setVisibility(View.VISIBLE);
+                nameEdit.setVisibility(View.GONE);
+                imgEditLayout.setVisibility(View.GONE);
+                name.setVisibility(View.VISIBLE);
 
             }
         });

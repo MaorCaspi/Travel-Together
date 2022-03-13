@@ -214,7 +214,7 @@ public class Model {
         });
     }
 
-    public LiveData<User> getCurrentUser() {
+    public MutableLiveData<User> getCurrentUser() {
         executor.execute(() -> {
             User result = AppLocalDb.db.userDao().getUserByEmailAddress(FirebaseAuth.getInstance().getCurrentUser().getEmail());
             user.postValue(result);

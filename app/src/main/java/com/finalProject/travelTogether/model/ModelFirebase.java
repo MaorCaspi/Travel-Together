@@ -119,6 +119,7 @@ public class ModelFirebase {
     }
 
     /* Users */
+
     public void addUser(User user, Model.AddUserListener listener) {
         Map<String, Object> json = user.toJson();
         db.collection(User.COLLECTION_NAME)
