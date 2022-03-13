@@ -2,17 +2,12 @@ package com.finalProject.travelTogether.feed;
 
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,17 +20,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.finalProject.travelTogether.R;
+import com.finalProject.travelTogether.feed.relations.PostAndUser;
 import com.finalProject.travelTogether.model.Model;
-import com.finalProject.travelTogether.model.Post;
 import com.finalProject.travelTogether.model.User;
-import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 
 public class ProfileFragment extends Fragment {
-    PostListRvViewModel viewModel;
+    ProfileViewModel viewModel;
     ImageView img;
     TextView name, email;
     Button editBtn,saveBtn;
@@ -47,20 +40,18 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        viewModel = new ViewModelProvider(this).get(PostListRvViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
     }
 
     public ProfileFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -116,17 +107,8 @@ public class ProfileFragment extends Fragment {
                 nameEdit.setVisibility(View.GONE);
                 imgEditLayout.setVisibility(View.GONE);
                 name.setVisibility(View.VISIBLE);
-
             }
         });
-
-//        adapter.setOnItemClickListener(new ProfileFragment.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View v,int position) {
-//                String stId = viewModel.getData().getValue().get(position).getId();
-//                Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(stId));
-//            }
-//        });
     }
 
     @Override
@@ -144,49 +126,61 @@ public class ProfileFragment extends Fragment {
         TextView descriptionTv;
         TextView authorNameTv;
         ImageView authorImageImv;
+        Button editBtn;
+        Button deleteBtn;
 
-        public MyViewHolder(@NonNull View itemView, OnItemClickListener listener) {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             countryNameTv = itemView.findViewById(R.id.listrow_countryName_tv);
             descriptionTv = itemView.findViewById(R.id.listrow_description_tv);
             postImageImv = itemView.findViewById(R.id.listrow_postImage_imv);
             authorNameTv = itemView.findViewById(R.id.listrow_authorName_tv);
+            authorImageImv = itemView.findViewById(R.id.listrow_avatar_imv);
+            editBtn = itemView.findViewById(R.id.listrow_edit_btn);
+            deleteBtn = itemView.findViewById(R.id.listrow_delete_btn);
         }
 
-        void bind(Post post){
-            countryNameTv.setText(post.getCountryName());
-            descriptionTv.setText(post.getDescription());
-            authorNameTv.setText(post.getAuthorEmailAddress());//////////////
-            postImageImv.setImageResource(R.drawable.avatar);
-            if (post.getPostImageUrl() != null) {
-                Picasso.get()
-                        .load(post.getPostImageUrl())
-                        .into(postImageImv);
+        void bind(PostAndUser post){
+            if(post==null || post.user==null || post.post==null) {
+                Model.instance.refreshPostList();
+                return;
             }
+            countryNameTv.setText(post.post.getCountryName());
+            descriptionTv.setText(post.post.getDescription());
+            authorNameTv.setText(post.user.getFullName());
+            if (post.post.getPostImageUrl() != null) {
+                Picasso.get()
+                        .load(post.post.getPostImageUrl())
+                        .into(postImageImv);
+                postImageImv.setVisibility(View.VISIBLE);
+            }
+            else{//if the post does not have a photo
+                postImageImv.setVisibility(View.GONE);
+            }
+            authorImageImv.setImageResource(R.drawable.avatar);
+            if (post.user.getAvatarUrl() != null) {
+                Picasso.get()
+                        .load(post.user.getAvatarUrl())
+                        .into(authorImageImv);
+            }
+            editBtn.setVisibility(View.GONE);
+            deleteBtn.setVisibility(View.GONE);
         }
     }
 
-    interface OnItemClickListener{
-        void onItemClick(View v,int position);
-    }
     class MyAdapter extends RecyclerView.Adapter<ProfileFragment.MyViewHolder>{
-
-        OnItemClickListener listener;
-        public void setOnItemClickListener(OnItemClickListener listener){
-            this.listener = listener;
-        }
 
         @NonNull
         @Override
         public ProfileFragment.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.post_list_row,parent,false);
-            ProfileFragment.MyViewHolder holder = new ProfileFragment.MyViewHolder(view,listener);
+            ProfileFragment.MyViewHolder holder = new ProfileFragment.MyViewHolder(view);
             return holder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull ProfileFragment.MyViewHolder holder, int position) {
-            Post post = viewModel.getUserPosts().getValue().get(position).post;
+            PostAndUser post = viewModel.getUserPosts().getValue().get(position);
             holder.bind(post);
         }
 

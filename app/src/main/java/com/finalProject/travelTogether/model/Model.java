@@ -122,11 +122,6 @@ public class Model {
         void onComplete(Post post);
     }
 
-    public Post getPostById(String postId, GetPostById listener) {
-        modelFirebase.getPostById(postId, listener);
-        return null;
-    }
-
     public void editPost(Post post) {
         post.setUpdateDate(new Long(0));
         executor.execute(() -> {

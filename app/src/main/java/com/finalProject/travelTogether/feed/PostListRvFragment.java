@@ -60,10 +60,10 @@ public class PostListRvFragment extends Fragment {
 
 
         avatarBtn.setOnClickListener(v -> {
-            toUserProfile(view);
+            toUserProfile();
         });
         privateUserPageBtn.setOnClickListener(v -> {
-            toUserProfile(view);
+            toUserProfile();
         });
         viewModel.getCurrentUser().observe(getViewLifecycleOwner(),user -> {
             if(user!=null) {
@@ -98,8 +98,8 @@ public class PostListRvFragment extends Fragment {
         return view;
     }
 
-    private void toUserProfile(View v) {
-        Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToProfileFragment());
+    private void toUserProfile() {
+        Navigation.findNavController(getView()).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToProfileFragment());
     }
 
     private void refresh() {
