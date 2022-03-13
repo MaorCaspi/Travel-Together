@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.finalProject.travelTogether.R;
@@ -25,7 +26,6 @@ import com.finalProject.travelTogether.feed.relations.PostAndUser;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.User;
 import com.squareup.picasso.Picasso;
-
 
 public class ProfileFragment extends Fragment {
     ProfileViewModel viewModel;
@@ -36,6 +36,7 @@ public class ProfileFragment extends Fragment {
     EditText nameEdit;
     LinearLayout imgEditLayout;
     User currentUser;
+    ProgressBar progressBar;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -64,7 +65,6 @@ public class ProfileFragment extends Fragment {
         saveBtn = view.findViewById(R.id.profile_save_btn);
         nameEdit = view.findViewById(R.id.profile_edit_name);
         imgEditLayout = view.findViewById(R.id.profile_edit_img_layout);
-
 
         RecyclerView list = view.findViewById(R.id.profile_rv);
 
@@ -95,9 +95,11 @@ public class ProfileFragment extends Fragment {
             }
         });
         saveBtn.setOnClickListener((v) -> {
+            progressBar.setVisibility(View.VISIBLE);
             String newUserName = nameEdit.getText().toString();
             if(newUserName.isEmpty())
             {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(),"Please fill the name field",Toast.LENGTH_SHORT).show();
             }else {
                 currentUser.setFullName(newUserName);
@@ -107,6 +109,8 @@ public class ProfileFragment extends Fragment {
                 nameEdit.setVisibility(View.GONE);
                 imgEditLayout.setVisibility(View.GONE);
                 name.setVisibility(View.VISIBLE);
+                list.setAdapter(adapter);
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -116,6 +120,9 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        progressBar = view.findViewById(R.id.profile_progressbar);
+        progressBar.setVisibility(View.GONE);
 
         return view;
     }
@@ -147,7 +154,7 @@ public class ProfileFragment extends Fragment {
             }
             countryNameTv.setText(post.post.getCountryName());
             descriptionTv.setText(post.post.getDescription());
-            authorNameTv.setText(post.user.getFullName());
+            authorNameTv.setText(currentUser.getFullName());
             if (post.post.getPostImageUrl() != null) {
                 Picasso.get()
                         .load(post.post.getPostImageUrl())

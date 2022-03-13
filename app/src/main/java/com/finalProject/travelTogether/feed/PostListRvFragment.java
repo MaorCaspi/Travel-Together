@@ -42,6 +42,7 @@ public class PostListRvFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Model.instance.refreshPostList();
         refresh();
     }
 

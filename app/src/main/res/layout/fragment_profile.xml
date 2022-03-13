@@ -69,9 +69,10 @@
 
                 <ImageView
                     android:id="@+id/profile_img"
-                    android:layout_width="125dp"
+                    android:layout_width="160dp"
                     android:layout_height="125dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
                     android:src="@drawable/avatar" />
 
             </LinearLayout>
@@ -110,6 +111,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"/>
+
+            <ProgressBar
+                android:id="@+id/profile_progressbar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="397dp"
+                android:layout_height="156dp"
+                android:translationZ="90dp" />
 
         </LinearLayout>
     </LinearLayout>
