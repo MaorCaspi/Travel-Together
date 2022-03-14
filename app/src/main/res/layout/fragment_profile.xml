@@ -93,6 +93,13 @@
                 android:layout_marginRight="10dp"
                 android:text="Edit"/>
             <Button
+                android:id="@+id/profile_cancel_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:text="Cancel"/>
+            <Button
                 android:id="@+id/profile_save_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,7 +31,6 @@ import com.finalProject.travelTogether.feed.relations.PostAndUser;
 import com.finalProject.travelTogether.model.Model;
 import com.finalProject.travelTogether.model.User;
 import com.squareup.picasso.Picasso;
-
 import java.io.IOException;
 
 public class ProfileFragment extends Fragment {
@@ -40,7 +38,7 @@ public class ProfileFragment extends Fragment {
     ProfileViewModel viewModel;
     ImageView avatarImv;
     TextView name, email;
-    Button editBtn,saveBtn;
+    Button editBtn,saveBtn,cancelBtn;
     ImageButton camBtn, galleryBtn;
     MyAdapter adapter;
     EditText nameEdit;
@@ -59,25 +57,26 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         avatarImv = view.findViewById(R.id.profile_img);
         name = view.findViewById(R.id.profile_name);
         email = view.findViewById(R.id.profile_email);
         editBtn = view.findViewById(R.id.profile_edit_btn);
         saveBtn = view.findViewById(R.id.profile_save_btn);
+        cancelBtn = view.findViewById(R.id.profile_cancel_btn);
         nameEdit = view.findViewById(R.id.profile_edit_name);
         imgEditLayout = view.findViewById(R.id.profile_edit_img_layout);
+        progressBar = view.findViewById(R.id.profile_progressbar);
+        camBtn = view.findViewById(R.id.profile_cam_btn);
+        galleryBtn = view.findViewById(R.id.profile_gallery_btn);
+
+        progressBar.setVisibility(View.GONE);
+        cancelBtn.setVisibility(View.GONE);
 
         RecyclerView list = view.findViewById(R.id.profile_rv);
-
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -87,25 +86,23 @@ public class ProfileFragment extends Fragment {
         viewModel.getCurrentUser().observe(getViewLifecycleOwner(), user -> {
             name.setText(user.getFullName());
             email.setText(user.getEmailAddress());
-            if(user.getAvatarUrl() != null){
+            if(viewModel.getImageBitmap()==null && user.getAvatarUrl() != null){
                 Picasso.get().load(user.getAvatarUrl()).into(avatarImv);
             }
             this.currentUser = user;
-         });
+        });
 
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                name.setVisibility(View.GONE);
+                editOptionsShow();
+                viewModel.setEditIsInProgress(true);
                 nameEdit.setText(name.getText());
-                nameEdit.setVisibility(View.VISIBLE);
-                imgEditLayout.setVisibility(View.VISIBLE);
-                saveBtn.setVisibility(View.VISIBLE);
-                editBtn.setVisibility(View.GONE);
             }
         });
         saveBtn.setOnClickListener((v) -> {
             progressBar.setVisibility(View.VISIBLE);
+            viewModel.setEditIsInProgress(false);
             String newUserName = nameEdit.getText().toString();
             if(newUserName.isEmpty())
             {
@@ -113,29 +110,36 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getContext(),"Please fill the name field",Toast.LENGTH_SHORT).show();
             }else {
                 currentUser.setFullName(newUserName);
-                viewModel.updateUser(currentUser);
-                saveBtn.setVisibility(View.GONE);
-                editBtn.setVisibility(View.VISIBLE);
-                nameEdit.setVisibility(View.GONE);
-                imgEditLayout.setVisibility(View.GONE);
-                name.setVisibility(View.VISIBLE);
-                list.setAdapter(adapter);
-                progressBar.setVisibility(View.GONE);
+                if(viewModel.getImageBitmap()!=null){//If the profile picture has changed
+                    Model.instance.saveImage(viewModel.getImageBitmap(), email + ".jpg", url -> {
+                        currentUser.setAvatarUrl(url);
+                        viewModel.updateUser(currentUser);
+                        editOptionsHide();
+                        list.setAdapter(adapter);
+                        progressBar.setVisibility(View.GONE);
+                    },0);
+                }
+                else {
+                    viewModel.updateUser(currentUser);
+                    editOptionsHide();
+                    list.setAdapter(adapter);
+                    progressBar.setVisibility(View.GONE);
+                }
             }
         });
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
-        progressBar = view.findViewById(R.id.profile_progressbar);
-        progressBar.setVisibility(View.GONE);
-
-        camBtn = view.findViewById(R.id.profile_cam_btn);
-        galleryBtn = view.findViewById(R.id.profile_gallery_btn);
+        cancelBtn.setOnClickListener((v) -> {
+            viewModel.setEditIsInProgress(false);
+            editOptionsHide();
+            viewModel.setImageBitmap(null);
+            name.setText(currentUser.getFullName());
+            if(currentUser.getAvatarUrl() != null){
+                Picasso.get().load(currentUser.getAvatarUrl()).into(avatarImv);
+            }
+            else{
+                avatarImv.setImageResource(R.drawable.avatar);
+            }
+        });
 
         camBtn.setOnClickListener(v -> {
             openCam();
@@ -146,6 +150,24 @@ public class ProfileFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void editOptionsShow() {
+        name.setVisibility(View.GONE);
+        nameEdit.setVisibility(View.VISIBLE);
+        imgEditLayout.setVisibility(View.VISIBLE);
+        saveBtn.setVisibility(View.VISIBLE);
+        editBtn.setVisibility(View.GONE);
+        cancelBtn.setVisibility(View.VISIBLE);
+    }
+
+    private void editOptionsHide() {
+        saveBtn.setVisibility(View.GONE);
+        editBtn.setVisibility(View.VISIBLE);
+        nameEdit.setVisibility(View.GONE);
+        imgEditLayout.setVisibility(View.GONE);
+        name.setVisibility(View.VISIBLE);
+        cancelBtn.setVisibility(View.GONE);
     }
 
     private void openGallery() {
@@ -219,7 +241,7 @@ public class ProfileFragment extends Fragment {
             authorImageImv.setImageResource(R.drawable.avatar);
             if (post.user.getAvatarUrl() != null) {
                 Picasso.get()
-                        .load(post.user.getAvatarUrl())
+                        .load(currentUser.getAvatarUrl())
                         .into(authorImageImv);
             }
             editBtn.setVisibility(View.GONE);
@@ -232,6 +254,9 @@ public class ProfileFragment extends Fragment {
         super.onResume();
         if(viewModel.getImageBitmap()!=null) {
             avatarImv.setImageBitmap(viewModel.getImageBitmap());
+        }
+        if(viewModel.isEditIsInProgress()==true){
+            editOptionsShow();
         }
     }
 

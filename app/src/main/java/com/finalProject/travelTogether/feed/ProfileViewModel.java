@@ -1,7 +1,6 @@
 package com.finalProject.travelTogether.feed;
 
 import android.graphics.Bitmap;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -14,6 +13,7 @@ public class ProfileViewModel extends ViewModel {
     private LiveData<List<PostAndUser>> userPosts;
     private MutableLiveData<User> currentUser;
     private Bitmap imageBitmap;
+    private boolean editIsInProgress=false;
 
     public ProfileViewModel(){
         currentUser = Model.instance.getCurrentUser();
@@ -44,5 +44,13 @@ public class ProfileViewModel extends ViewModel {
 
     public void setImageBitmap(Bitmap imageBitmap) {
         this.imageBitmap = imageBitmap;
+    }
+
+    public boolean isEditIsInProgress() {
+        return editIsInProgress;
+    }
+
+    public void setEditIsInProgress(boolean editIsInProgress) {
+        this.editIsInProgress = editIsInProgress;
     }
 }
